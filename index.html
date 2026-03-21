@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" href="Logo/icons.jfif" type="image/jpeg">
+  <title>Gabriel Lazaro - IT Student</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="darkmode.css" />
+</head>
+<body>
+
+  <div class="theme-toggle-wrap">
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()">
+      <span class="theme-icon">🌙</span>
+      <span class="theme-text">Dark</span>
+    </button>
+  </div>
+
+  <div class="profile-header">
+    <div class="avatar-stack">
+      <img class="avatar theme-img light-avatar active" src="Images/light.png" alt="Profile Picture" />
+      <img class="avatar theme-img dark-avatar" src="Images/dark.png" alt="Profile Picture Dark" />
+    </div>
+
+    <div class="info">
+      <div class="name-row">
+        <h1 class="name">Gabriel Lazaro</h1>
+        <img src="Logo/Blue_Check.png" class="badge-icon" alt="Verified">
+      </div>
+
+      <p class="location">
+        <img src="Logo/Location.png" class="loc-icon" alt="">
+        Metro Manila, Philippines
+      </p>
+
+      <p class="role">Bachelor of Science in Information Technology Student</p>
+
+      <div class="actions">
+        <button class="primary">
+          <img src="Logo/Schedule_Call.png" class="btn-icon" alt="">
+          Schedule a Call
+        </button>
+
+        <button class="ghost">
+          <img src="Logo/Send_Email.png" class="btn-icon" alt="">
+          Send Email
+        </button>
+
+        <button type="button" class="ghost download-btn" onclick="downloadCV()">
+          <img src="Logo/Download.png" class="btn-icon" alt="">
+          Download CV <span class="arrow">›</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-id-section">
+    <div class="left-column">
+      <div class="about-container">
+        <h2>About</h2>
+
+        <p>
+          I'm a Bachelor of Science in Information Technology student at PHINMA Saint Jude College - Manila.
+          I enjoy learning new technologies and building web projects that strengthen my skills and support my academic growth.
+        </p>
+
+        <p>
+          I have experience in basic web development using HTML, CSS, and JavaScript. I like creating simple, functional, and
+          user-friendly applications while improving my problem-solving and programming abilities.
+        </p>
+
+        <p>
+          I am also interested in Artificial Intelligence and how it can be used to create smarter systems. My goal is to become
+          an IT professional who can develop innovative solutions that make everyday tasks more efficient.
+        </p>
+      </div>
+
+      <div class="tech-stack-container">
+        <h2>Tech Stack</h2>
+
+        <div class="tech-stack-section">
+          <h4>Frontend</h4>
+          <div class="tech-tags">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+            <span>Tailwind CSS</span>
+          </div>
+        </div>
+
+        <div class="tech-stack-section">
+          <h4>Backend</h4>
+          <div class="tech-tags">
+            <span>Node.js</span>
+            <span>Express.js</span>
+            <span>PHP</span>
+            <span>Python</span>
+          </div>
+        </div>
+
+        <div class="tech-stack-section">
+          <h4>Programming Languages</h4>
+          <div class="tech-tags">
+            <span>Java</span>
+            <span>C#</span>
+            <span>C++</span>
+          </div>
+        </div>
+
+        <div class="tech-stack-section">
+          <h4>Database / Server</h4>
+          <div class="tech-tags">
+            <span>MySQL</span>
+            <span>XAMPP</span>
+          </div>
+        </div>
+
+        <div class="tech-stack-section">
+          <h4>AI / Tools</h4>
+          <div class="tech-tags">
+            <span>Google GenAI</span>
+            <span>dotenv</span>
+            <span>CORS</span>
+            <span>npm</span>
+            <span>Visual Studio Code</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-column">
+      <div class="id-wrapper">
+        <img src="Images/Student_ID.jpg" class="student-id" alt="Student ID">
+      </div>
+
+      <div class="experience-container">
+        <h2>Experience</h2>
+
+        <div class="timeline">
+          <div class="timeline-item active">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-top">
+                <h4>BS Information Technology</h4>
+                <span>Present</span>
+              </div>
+              <p>PHINMA Saint Jude College - Manila</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-top">
+                <h4>Web Development Projects</h4>
+                <span>2024</span>
+              </div>
+              <p>Built responsive websites and portfolio projects using HTML, CSS, and JavaScript.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-top">
+                <h4>AI Chatbot Integration</h4>
+                <span>2025</span>
+              </div>
+              <p>Developed and integrated a chatbot into my portfolio using Node.js, Express.js, and Google GenAI.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-top">
+                <h4>Academic System Projects</h4>
+                <span>2024</span>
+              </div>
+              <p>Worked on school-related systems and programming projects involving web development and databases.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="chat-float" onclick="toggleChat()">
+    <img src="Logo/chat-logo.png" class="chat-float-icon" alt="Chat Logo">
+    <span>Chat with Gab</span>
+  </button>
+
+  <div class="chat-box" id="chatBox">
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <img src="Images/light.png" alt="Gabriel" class="chat-header-avatar theme-avatar">
+        <div class="chat-header-info">
+          <h3>Chat with Gab</h3>
+          <div class="chat-status">
+            <span class="status-dot"></span>
+            <span>Online</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="close-chat" onclick="toggleChat()">×</button>
+    </div>
+
+    <div class="chat-body" id="chatBody">
+      <div class="bot-row">
+        <img src="Images/light.png" alt="Gabriel" class="message-avatar theme-avatar">
+        <div class="message-group">
+          <div class="sender-name">Gabriel Lazaro</div>
+          <div class="message bot-message">
+            Hi there! 👋🏻 Thanks for visiting my website. Feel free to ask me anything about my portfolio, projects, or skills.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-footer-wrap">
+      <div class="chat-footer">
+        <input type="text" placeholder="Type a message..." id="chatInput" maxlength="1000">
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>➜</button>
+      </div>
+
+      <div class="chat-footer-bottom">
+        <span>Ask me about programming, web dev, or tech!</span>
+        <span id="charCount">0/1000</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
