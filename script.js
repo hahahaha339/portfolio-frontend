@@ -1,10 +1,19 @@
 function downloadCV() {
   const link = document.createElement("a");
-  link.href = "Files/Gabriel-Lazaro-CV.pdf";
+  link.href = "Gabriel-Lazaro-CV.pdf";
   link.download = "Gabriel-Lazaro-CV.pdf";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+}
+
+function updateThemeAvatars(theme) {
+  const themeAvatars = document.querySelectorAll(".theme-avatar");
+  const chatAvatarSrc = theme === "dark" ? "dark.png" : "light.png";
+
+  themeAvatars.forEach(img => {
+    img.src = chatAvatarSrc;
+  });
 }
 
 function toggleChat() {
@@ -19,6 +28,10 @@ function toggleChat() {
     chatBox.classList.remove("show");
   } else {
     chatBox.classList.add("show");
+
+    const currentTheme = document.body.classList.contains("dark-mode") ? "dark" : "light";
+    updateThemeAvatars(currentTheme);
+
     setTimeout(() => {
       if (input) input.focus();
     }, 220);
@@ -27,11 +40,14 @@ function toggleChat() {
 
 function scrollChatToBottom() {
   const chatBody = document.getElementById("chatBody");
-  chatBody.scrollTop = chatBody.scrollHeight;
+  if (chatBody) {
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
 }
 
 function addUserMessage(message) {
   const chatBody = document.getElementById("chatBody");
+  if (!chatBody) return;
 
   const userRow = document.createElement("div");
   userRow.className = "user-row";
@@ -48,8 +64,10 @@ function addUserMessage(message) {
 
 function addBotMessage(message) {
   const chatBody = document.getElementById("chatBody");
+  if (!chatBody) return;
+
   const isDark = document.body.classList.contains("dark-mode");
-  const avatarSrc = isDark ? "Images/dark.png" : "Images/light.png";
+  const avatarSrc = isDark ? "dark.png" : "light.png";
 
   const botRow = document.createElement("div");
   botRow.className = "bot-row";
@@ -68,8 +86,10 @@ function addBotMessage(message) {
 
 function addTypingMessage() {
   const chatBody = document.getElementById("chatBody");
+  if (!chatBody) return;
+
   const isDark = document.body.classList.contains("dark-mode");
-  const avatarSrc = isDark ? "Images/dark.png" : "Images/light.png";
+  const avatarSrc = isDark ? "dark.png" : "light.png";
 
   const typingRow = document.createElement("div");
   typingRow.className = "bot-row";
@@ -94,8 +114,9 @@ function removeTypingMessage() {
 
 async function sendMessage() {
   const input = document.getElementById("chatInput");
-  const message = input.value.trim();
+  if (!input) return;
 
+  const message = input.value.trim();
   if (!message) return;
 
   addUserMessage(message);
@@ -105,7 +126,7 @@ async function sendMessage() {
   addTypingMessage();
 
   try {
-    const response = await fetch("/chat", {
+    const response = await fetch("https://portfolio-backend-1-aupt.onrender.com/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -138,25 +159,6 @@ function updateCharCount() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  const input = document.getElementById("chatInput");
-
-  const savedTheme = localStorage.getItem("theme") || "light";
-  applyTheme(savedTheme);
-
-  if (input) {
-    input.addEventListener("keydown", function (event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        sendMessage();
-      }
-    });
-
-    input.addEventListener("input", updateCharCount);
-    updateCharCount();
-  }
-});
-
 function applyTheme(theme) {
   const body = document.body;
   const themeText = document.querySelector(".theme-text");
@@ -164,9 +166,6 @@ function applyTheme(theme) {
 
   const lightAvatar = document.querySelector(".light-avatar");
   const darkAvatar = document.querySelector(".dark-avatar");
-
-  const themeAvatars = document.querySelectorAll(".theme-avatar");
-  const chatAvatarSrc = theme === "dark" ? "Images/dark.png" : "Images/light.png";
 
   if (theme === "dark") {
     body.classList.add("dark-mode");
@@ -184,9 +183,7 @@ function applyTheme(theme) {
     if (lightAvatar) lightAvatar.classList.add("active");
   }
 
-  themeAvatars.forEach(img => {
-    img.src = chatAvatarSrc;
-  });
+  updateThemeAvatars(theme);
 }
 
 function toggleTheme() {
@@ -196,3 +193,23 @@ function toggleTheme() {
   localStorage.setItem("theme", nextTheme);
   applyTheme(nextTheme);
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  const input = document.getElementById("chatInput");
+  const savedTheme = localStorage.getItem("theme") || "light";
+
+  applyTheme(savedTheme);
+  updateThemeAvatars(savedTheme);
+
+  if (input) {
+    input.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage();
+      }
+    });
+
+    input.addEventListener("input", updateCharCount);
+    updateCharCount();
+  }
+});
