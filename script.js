@@ -123,7 +123,7 @@ async function sendMessage() {
   input.value = "";
   updateCharCount();
 
-  addTypingMessage();
+  addTypingMessage(); 
 
   try {
     const response = await fetch("https://portfolio-backend-1-aupt.onrender.com/chat", {
