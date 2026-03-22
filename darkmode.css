@@ -395,3 +395,11 @@ body.dark-mode .tech-tags span{
   background: var(--text);
   border-color: var(--text);
 }
+
+body.dark-mode .site-footer{
+  color: #bdbdbd;
+}
+
+body.dark-mode .site-footer p{
+  border-top: 1px solid #2a2a2a;
+}
