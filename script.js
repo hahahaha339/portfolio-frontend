@@ -216,3 +216,53 @@ document.addEventListener("DOMContentLoaded", function () {
     updateCharCount();
   }
 });
+
+function applyTheme(theme) {
+  const body = document.body;
+  const themeText = document.querySelector(".theme-text");
+  const themeIcon = document.querySelector(".theme-icon");
+
+  const lightAvatar = document.querySelector(".light-avatar");
+  const darkAvatar = document.querySelector(".dark-avatar");
+
+  const themeAvatars = document.querySelectorAll(".theme-avatar");
+  const chatAvatarSrc = theme === "dark" ? "dark.png" : "light.png";
+
+  if (theme === "dark") {
+    body.classList.add("dark-mode");
+    if (themeText) themeText.textContent = "Light";
+    if (themeIcon) themeIcon.textContent = "☀️";
+
+    if (lightAvatar) lightAvatar.classList.remove("active");
+    if (darkAvatar) darkAvatar.classList.add("active");
+  } else {
+    body.classList.remove("dark-mode");
+    if (themeText) themeText.textContent = "Dark";
+    if (themeIcon) themeIcon.textContent = "🌙";
+
+    if (darkAvatar) darkAvatar.classList.remove("active");
+    if (lightAvatar) lightAvatar.classList.add("active");
+  }
+
+  themeAvatars.forEach(img => {
+    img.src = chatAvatarSrc;
+  });
+}
+
+function toggleTheme() {
+  const isDark = document.body.classList.contains("dark-mode");
+  const nextTheme = isDark ? "light" : "dark";
+
+  localStorage.setItem("theme", nextTheme);
+  applyTheme(nextTheme);
+}
+
+function scrollGallery(direction) {
+  const slider = document.getElementById("gallerySlider");
+  if (!slider) return;
+
+  slider.scrollBy({
+    left: direction * 336,
+    behavior: "smooth"
+  });
+}
