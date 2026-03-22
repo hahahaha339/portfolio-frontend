@@ -151,10 +151,13 @@ function updateCharCount() {
 
   if (input && charCount) {
     const message = input.value.trim();
+    const hasText = message !== "";
+
     charCount.textContent = `${input.value.length}/1000`;
 
     if (sendBtn) {
-      sendBtn.disabled = message === "";
+      sendBtn.disabled = !hasText;
+      sendBtn.classList.toggle("active", hasText);
     }
   }
 }
