@@ -1,3 +1,7 @@
+html, body{
+  overflow-x: hidden;
+}
+
 body{
   margin:0;
   min-height:100vh;
@@ -574,6 +578,27 @@ body:not(.dark-mode) .ghost:hover .btn-icon{
   background: #8f8f8f;
 }
 
+body:not(.dark-mode) .send-btn{
+  background: #a5a5a5;
+  color: #fff;
+}
+
+body:not(.dark-mode) .send-btn.active{
+  background: #000;
+  color: #fff;
+  opacity: 1;
+}
+
+body:not(.dark-mode) .send-btn.active:hover{
+  background: #000;
+}
+
+.send-btn:disabled{
+  background: #a5a5a5;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
 .chat-footer-bottom{
   margin-top: 8px;
   display: flex;
@@ -1054,4 +1079,26 @@ body:not(.dark-mode) .ghost:hover .btn-icon{
     padding: 7px 10px;
     font-size: 12px;
   }
+}
+
+.site-footer{
+  width: 100%;
+  text-align: center;
+  margin-top: 100px;
+  color: #666;
+  font-size: 14px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 0px;
+}
+
+.site-footer p{
+  width: 450px;
+  max-width: 90%;
+  margin: 0 auto 0;
+  padding-top: 16px;
+  border-top: 1px solid #d9d9d9;
 }
