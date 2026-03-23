@@ -119,25 +119,8 @@ async function sendMessage() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ message: message })
+      body: JSON.stringify({ message })
     });
-
-    const data = await response.json();
-
-    removeTypingMessage();
-
-    if (!response.ok) {
-      addBotMessage(data.reply || "Server error. Please try again.");
-      return;
-    }
-
-    addBotMessage(data.reply || "Sorry, no response generated.");
-  } catch (error) {
-    removeTypingMessage();
-    addBotMessage("Server error. Please try again.");
-    console.error("Chat fetch error:", error);
-  }
-}
 
     const data = await response.json();
 
