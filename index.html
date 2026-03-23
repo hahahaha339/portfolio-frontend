@@ -37,15 +37,15 @@
       <p class="role">Bachelor of Science in Information Technology Student</p>
 
       <div class="actions">
-        <button class="primary">
-          <img src="Schedule_Call.png" class="btn-icon" alt="">
-          Schedule a Call
-        </button>
+<a href="https://calendly.com/gabriellazaro0808/30min" target="_blank" rel="noopener noreferrer" class="primary schedule-link">
+  <img src="Schedule_Call.png" class="btn-icon" alt="">
+  Schedule a Call
+</a>
 
-        <button class="ghost">
-          <img src="Send_Email.png" class="btn-icon" alt="">
-          Send Email
-        </button>
+<button type="button" class="ghost" onclick="openEmailModal()">
+  <img src="Send_Email.png" class="btn-icon" alt="">
+  Send Email
+</button>
 
         <button type="button" class="ghost download-btn" onclick="downloadCV()">
           <img src="Download.png" class="btn-icon" alt="">
@@ -54,6 +54,40 @@
       </div>
     </div>
   </div>
+
+<div class="email-modal" id="emailModal">
+  <div class="email-modal-card">
+    <button class="email-modal-close" type="button" onclick="closeEmailModal()" aria-label="Close email form">×</button>
+
+    <h2>Send Email</h2>
+    <p class="email-modal-subtext">Feel free to send me a message here.</p>
+
+    <form id="emailForm" class="email-form">
+      <div class="form-field">
+        <label for="emailName">Name</label>
+        <input type="text" name="name" id="emailName" required>
+      </div>
+
+      <div class="form-field">
+        <label for="emailAddress">Email</label>
+        <input type="email" name="email" id="emailAddress" required>
+      </div>
+
+      <div class="form-field">
+        <label for="emailSubject">Subject</label>
+        <input type="text" name="subject" id="emailSubject" required>
+      </div>
+
+      <div class="form-field">
+        <label for="emailMessage">Message</label>
+        <textarea name="message" id="emailMessage" rows="6" required></textarea>
+      </div>
+
+      <button type="submit" class="email-submit-btn">Send Message</button>
+      <p id="emailFormStatus" class="email-form-status"></p>
+    </form>
+  </div>
+</div>
 
   <div class="about-id-section">
     <div class="left-column">
@@ -139,6 +173,7 @@
             <span class="project-domain">schedulepro.github.io</span>
           </a>
         </div>
+        
       </div>
     </div>
 
@@ -289,12 +324,10 @@
     </div>
   </div>
 
-    <footer class="site-footer">
+  <script src="script.js"></script>
+
+  <footer class="site-footer">
     <p>© 2026 Gabriel Lazaro. All Rights Reserved.</p>
   </footer>
-
-  <script src="script.js"></script>
-  <script defer src="/_vercel/insights/script.js"></script>
-  
 </body>
 </html>
