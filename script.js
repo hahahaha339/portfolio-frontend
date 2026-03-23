@@ -1,4 +1,4 @@
-const BACKEND_URL = "https://api.render.com/deploy/srv-d6v4q5n5r7bs73ek4js0?key=nqD5ZbeWSFM";
+const BACKEND_URL = "https://gabriel-portfolio-backend.onrender.com";
 
 function downloadCV() {
   const link = document.createElement("a");
@@ -114,21 +114,28 @@ async function sendMessage() {
   addTypingMessage();
 
   try {
-    const response = await fetch(`${BACKEND_URL}/chat`, {
+    const response = await fetch(`${https://api.render.com/deploy/srv-d6v4q5n5r7bs73ek4js0?key=nqD5ZbeWSFM}/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ message })
+      body: JSON.stringify({ message: message })
     });
 
     const data = await response.json();
 
     removeTypingMessage();
+
+    if (!response.ok) {
+      addBotMessage(data.reply || "Server error. Please try again.");
+      return;
+    }
+
     addBotMessage(data.reply || "Sorry, no response generated.");
   } catch (error) {
     removeTypingMessage();
     addBotMessage("Server error. Please try again.");
+    console.error("Chat fetch error:", error);
   }
 }
 
