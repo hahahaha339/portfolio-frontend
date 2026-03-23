@@ -53,7 +53,7 @@ function addBotMessage(message) {
   if (!chatBody) return;
 
   const isDark = document.body.classList.contains("dark-mode");
-  const avatarSrc = isDark ? "dark.png" : "Images/light.png";
+  const avatarSrc = isDark ? "dark.png" : "light.png";
 
   const botRow = document.createElement("div");
   botRow.className = "bot-row";
@@ -75,7 +75,7 @@ function addTypingMessage() {
   if (!chatBody) return;
 
   const isDark = document.body.classList.contains("dark-mode");
-  const avatarSrc = isDark ? "dark.png" : "Images/light.png";
+  const avatarSrc = isDark ? "dark.png" : "light.png";
 
   const typingRow = document.createElement("div");
   typingRow.className = "bot-row";
