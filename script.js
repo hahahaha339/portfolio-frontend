@@ -1,3 +1,5 @@
+const BACKEND_URL = "https://api.render.com/deploy/srv-d6v4q5n5r7bs73ek4js0?key=nqD5ZbeWSFM";
+
 function downloadCV() {
   const link = document.createElement("a");
   link.href = "Gabriel-Lazaro-CV.pdf";
@@ -112,7 +114,7 @@ async function sendMessage() {
   addTypingMessage();
 
   try {
-    const response = await fetch("/chat", {
+    const response = await fetch(`${BACKEND_URL}/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
