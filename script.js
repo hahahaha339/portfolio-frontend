@@ -1,4 +1,5 @@
 const BACKEND_URL = "https://portfolio-backend-1-aupt.onrender.com";
+let isBotReplying = false;
 
 function downloadCV() {
   const link = document.createElement("a");
@@ -103,8 +104,6 @@ function removeTypingMessage() {
   const typing = document.getElementById("typingMessage");
   if (typing) typing.remove();
 }
-
-let isBotReplying = false;
 
 async function sendMessage() {
   const input = document.getElementById("chatInput");
@@ -340,20 +339,31 @@ document.addEventListener("DOMContentLoaded", function () {
   const slider = document.getElementById("gallerySlider");
   const emailForm = document.getElementById("emailForm");
   const emailModal = document.getElementById("emailModal");
+  const sendBtn = document.getElementById("sendBtn");
 
   const savedTheme = localStorage.getItem("theme") || "light";
   applyTheme(savedTheme);
 
   if (input) {
     input.addEventListener("keydown", function (event) {
-      if (event.key === "Enter") {
+      if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();
+
+        if (isBotReplying) return;
+
         sendMessage();
       }
     });
 
     input.addEventListener("input", updateCharCount);
     updateCharCount();
+  }
+
+  if (sendBtn) {
+    sendBtn.addEventListener("click", function () {
+      if (isBotReplying) return;
+      sendMessage();
+    });
   }
 
   if (slider) {
