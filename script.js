@@ -76,11 +76,14 @@ function addTypingMessage() {
   const chatBody = document.getElementById("chatBody");
   if (!chatBody) return;
 
+  // alisin muna kung meron nang existing typing
+  removeTypingMessage();
+
   const isDark = document.body.classList.contains("dark-mode");
   const avatarSrc = isDark ? "dark.png" : "light.png";
 
   const typingRow = document.createElement("div");
-  typingRow.className = "bot-row";
+  typingRow.className = "bot-row typing-row";
   typingRow.id = "typingMessage";
 
   typingRow.innerHTML = `
@@ -96,8 +99,7 @@ function addTypingMessage() {
 }
 
 function removeTypingMessage() {
-  const typing = document.getElementById("typingMessage");
-  if (typing) typing.remove();
+  document.querySelectorAll("#typingMessage, .typing-row").forEach((el) => el.remove());
 }
 
 async function sendMessage() {
@@ -106,6 +108,11 @@ async function sendMessage() {
 
   const message = input.value.trim();
   if (!message) return;
+
+  // optional: iwas double send habang naghihintay
+  const sendBtn = document.getElementById("sendBtn");
+  if (sendBtn) sendBtn.disabled = true;
+  input.disabled = true;
 
   addUserMessage(message);
   input.value = "";
@@ -122,9 +129,12 @@ async function sendMessage() {
       body: JSON.stringify({ message })
     });
 
-    const data = await response.json();
-
-    removeTypingMessage();
+    let data = {};
+    try {
+      data = await response.json();
+    } catch {
+      data = {};
+    }
 
     if (!response.ok) {
       addBotMessage(data.reply || "Server error. Please try again.");
@@ -133,9 +143,14 @@ async function sendMessage() {
 
     addBotMessage(data.reply || "Sorry, no response generated.");
   } catch (error) {
-    removeTypingMessage();
-    addBotMessage("Server error. Please try again.");
     console.error("Chat fetch error:", error);
+    addBotMessage("Server error. Please try again.");
+  } finally {
+    removeTypingMessage();
+    input.disabled = false;
+    if (sendBtn) sendBtn.disabled = false;
+    updateCharCount();
+    input.focus();
   }
 }
 
