@@ -119,16 +119,14 @@ async function sendMessage() {
 
   addUserMessage(message);
   input.value = "";
+  updateCharCount();
+
+  addTypingMessage();
 
   if (sendBtn) {
     sendBtn.disabled = true;
     sendBtn.classList.remove("active");
   }
-
-  input.disabled = true;
-  updateCharCount();
-
-  addTypingMessage();
 
   try {
     const response = await fetch(`${BACKEND_URL}/chat`, {
@@ -148,9 +146,7 @@ async function sendMessage() {
     addBotMessage("Server error. Please try again.");
   } finally {
     isBotReplying = false;
-    input.disabled = false;
     updateCharCount();
-    input.focus();
   }
 }
 
