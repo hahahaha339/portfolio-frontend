@@ -104,15 +104,28 @@ function removeTypingMessage() {
   if (typing) typing.remove();
 }
 
+let isBotReplying = false;
+
 async function sendMessage() {
   const input = document.getElementById("chatInput");
-  if (!input) return;
+  const sendBtn = document.getElementById("sendBtn");
+
+  if (!input || isBotReplying) return;
 
   const message = input.value.trim();
   if (!message) return;
 
+  isBotReplying = true;
+
   addUserMessage(message);
   input.value = "";
+
+  if (sendBtn) {
+    sendBtn.disabled = true;
+    sendBtn.classList.remove("active");
+  }
+
+  input.disabled = true;
   updateCharCount();
 
   addTypingMessage();
@@ -133,6 +146,11 @@ async function sendMessage() {
   } catch (error) {
     removeTypingMessage();
     addBotMessage("Server error. Please try again.");
+  } finally {
+    isBotReplying = false;
+    input.disabled = false;
+    updateCharCount();
+    input.focus();
   }
 }
 
@@ -148,8 +166,9 @@ function updateCharCount() {
     charCount.textContent = `${input.value.length}/1000`;
 
     if (sendBtn) {
-      sendBtn.disabled = !hasText;
-      sendBtn.classList.toggle("active", hasText);
+      const shouldEnable = hasText && !isBotReplying;
+      sendBtn.disabled = !shouldEnable;
+      sendBtn.classList.toggle("active", shouldEnable);
     }
   }
 }
