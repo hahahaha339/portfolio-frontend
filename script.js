@@ -72,19 +72,15 @@ function addBotMessage(message) {
   scrollChatToBottom();
 }
 
-let isSending = false;
-
 function addTypingMessage() {
   const chatBody = document.getElementById("chatBody");
   if (!chatBody) return;
 
-  removeTypingMessage();
-
   const isDark = document.body.classList.contains("dark-mode");
-  const avatarSrc = isDark ? "dark.png" : "light.png";
+  const avatarSrc = isDark ? "Images/dark.png" : "Images/light.png";
 
   const typingRow = document.createElement("div");
-  typingRow.className = "bot-row typing-row";
+  typingRow.className = "bot-row";
   typingRow.id = "typingMessage";
 
   typingRow.innerHTML = `
@@ -100,66 +96,57 @@ function addTypingMessage() {
 }
 
 function removeTypingMessage() {
-  document.querySelectorAll("#typingMessage, .typing-row").forEach((el) => el.remove());
+  const typing = document.getElementById("typingMessage");
+  if (typing) typing.remove();
 }
 
 async function sendMessage() {
   const input = document.getElementById("chatInput");
-  const sendBtn = document.getElementById("sendBtn");
-
-  if (!input || isSending) return;
+  if (!input) return;
 
   const message = input.value.trim();
   if (!message) return;
 
-  isSending = true;
   addUserMessage(message);
   input.value = "";
   updateCharCount();
+
   addTypingMessage();
 
-  if (sendBtn) sendBtn.disabled = true;
-
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 15000);
-
   try {
-    const response = await fetch(`${BACKEND_URL}/chat`, {
+    const response = await fetch("/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ message }),
-      signal: controller.signal
+      body: JSON.stringify({ message })
     });
 
-    let data = {};
-    try {
-      data = await response.json();
-    } catch {
-      data = {};
-    }
+    const data = await response.json();
 
-    if (!response.ok) {
-      addBotMessage(data.reply || "I’m a bit unavailable right now. Please try again later.");
-      return;
-    }
-
+    removeTypingMessage();
     addBotMessage(data.reply || "Sorry, no response generated.");
   } catch (error) {
-    console.error("Chat fetch error:", error);
-
-    if (error.name === "AbortError") {
-      addBotMessage("I’m a bit unavailable right now. Please try again later.");
-    } else {
-      addBotMessage("I’m a bit unavailable right now. Please try again later.");
-    }
-  } finally {
-    clearTimeout(timeout);
     removeTypingMessage();
-    isSending = false;
-    if (sendBtn) sendBtn.disabled = false;
-    updateCharCount();
+    addBotMessage("Server error. Please try again.");
+  }
+}
+
+function updateCharCount() {
+  const input = document.getElementById("chatInput");
+  const charCount = document.getElementById("charCount");
+  const sendBtn = document.getElementById("sendBtn");
+
+  if (input && charCount) {
+    const message = input.value.trim();
+    const hasText = message !== "";
+
+    charCount.textContent = `${input.value.length}/1000`;
+
+    if (sendBtn) {
+      sendBtn.disabled = !hasText;
+      sendBtn.classList.toggle("active", hasText);
+    }
   }
 }
 
