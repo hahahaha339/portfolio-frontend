@@ -72,11 +72,12 @@ function addBotMessage(message) {
   scrollChatToBottom();
 }
 
+let isSending = false;
+
 function addTypingMessage() {
   const chatBody = document.getElementById("chatBody");
   if (!chatBody) return;
 
-  // alisin muna kung meron nang existing typing
   removeTypingMessage();
 
   const isDark = document.body.classList.contains("dark-mode");
@@ -104,21 +105,23 @@ function removeTypingMessage() {
 
 async function sendMessage() {
   const input = document.getElementById("chatInput");
-  if (!input) return;
+  const sendBtn = document.getElementById("sendBtn");
+
+  if (!input || isSending) return;
 
   const message = input.value.trim();
   if (!message) return;
 
-  // optional: iwas double send habang naghihintay
-  const sendBtn = document.getElementById("sendBtn");
-  if (sendBtn) sendBtn.disabled = true;
-  input.disabled = true;
-
+  isSending = true;
   addUserMessage(message);
   input.value = "";
   updateCharCount();
-
   addTypingMessage();
+
+  if (sendBtn) sendBtn.disabled = true;
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
 
   try {
     const response = await fetch(`${BACKEND_URL}/chat`, {
@@ -126,7 +129,8 @@ async function sendMessage() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ message })
+      body: JSON.stringify({ message }),
+      signal: controller.signal
     });
 
     let data = {};
@@ -137,38 +141,25 @@ async function sendMessage() {
     }
 
     if (!response.ok) {
-      addBotMessage(data.reply || "Server error. Please try again.");
+      addBotMessage(data.reply || "I’m a bit unavailable right now. Please try again later.");
       return;
     }
 
     addBotMessage(data.reply || "Sorry, no response generated.");
   } catch (error) {
     console.error("Chat fetch error:", error);
-    addBotMessage("Server error. Please try again.");
+
+    if (error.name === "AbortError") {
+      addBotMessage("I’m a bit unavailable right now. Please try again later.");
+    } else {
+      addBotMessage("I’m a bit unavailable right now. Please try again later.");
+    }
   } finally {
+    clearTimeout(timeout);
     removeTypingMessage();
-    input.disabled = false;
+    isSending = false;
     if (sendBtn) sendBtn.disabled = false;
     updateCharCount();
-    input.focus();
-  }
-}
-
-function updateCharCount() {
-  const input = document.getElementById("chatInput");
-  const charCount = document.getElementById("charCount");
-  const sendBtn = document.getElementById("sendBtn");
-
-  if (input && charCount) {
-    const message = input.value.trim();
-    const hasText = message !== "";
-
-    charCount.textContent = `${input.value.length}/1000`;
-
-    if (sendBtn) {
-      sendBtn.disabled = !hasText;
-      sendBtn.classList.toggle("active", hasText);
-    }
   }
 }
 
