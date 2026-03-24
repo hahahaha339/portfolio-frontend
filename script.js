@@ -87,7 +87,11 @@ function addTypingMessage() {
     <img src="${avatarSrc}" alt="Gabriel" class="message-avatar theme-avatar">
     <div class="message-group">
       <div class="sender-name">Gabriel Lazaro</div>
-      <div class="message bot-message">Typing...</div>
+      <div class="message bot-message typing-bubble">
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+      </div>
     </div>
   `;
 
