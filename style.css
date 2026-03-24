@@ -696,6 +696,22 @@ body:not(.dark-mode) .send-btn.active:hover{
   padding: 6px 9px;
 }
 
+.projects-grid.two-projects {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.projects-grid.two-projects .small-project-card {
+  max-width: 100%;
+}
+
+@media (max-width: 480px) {
+  .projects-grid.two-projects {
+    grid-template-columns: 1fr;
+  }
+}
+
 .social-links-container{
   width: 120%;
   background: #ffffff;
