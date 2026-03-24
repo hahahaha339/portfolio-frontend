@@ -1171,6 +1171,7 @@ textarea:-webkit-autofill{
   z-index: 1000 !important;
 }
 
+/* ── TABLET / IPAD (landscape + portrait) ── */
 @media (max-width: 1024px) {
   .profile-header,
   .about-id-section {
@@ -1340,10 +1341,13 @@ textarea:-webkit-autofill{
     gap: 18px;
     margin-bottom: 22px;
     text-align: center;
+    padding: 0 8px;
+    box-sizing: border-box;
   }
  
   .info {
     width: 100%;
+    box-sizing: border-box;
   }
  
   .name-row {
@@ -1360,24 +1364,29 @@ textarea:-webkit-autofill{
   }
  
   .role {
-    margin: 8px 0 20px;
-    font-size: 15px;
+    margin: 8px 0 16px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-break: keep-all;
   }
  
-  /* Buttons — full-width stacked */
+  /* Buttons — full-width stacked, centered */
   .actions {
     width: 100%;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
   }
  
   .primary,
   .ghost,
   .download-btn {
     width: 100%;
+    max-width: 300px;
     min-width: 0;
     justify-content: center;
-    padding: 12px 14px;
+    padding: 11px 14px;
     box-sizing: border-box;
   }
  
