@@ -77,7 +77,7 @@ function addTypingMessage() {
   if (!chatBody) return;
 
   const isDark = document.body.classList.contains("dark-mode");
-  const avatarSrc = isDark ? "Images/dark.png" : "Images/light.png";
+  const avatarSrc = isDark ? "dark.png" : "light.png";
 
   const typingRow = document.createElement("div");
   typingRow.className = "bot-row";
