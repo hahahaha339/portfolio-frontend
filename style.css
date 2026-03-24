@@ -497,6 +497,25 @@ body:not(.dark-mode) .ghost:hover .btn-icon{
   display: flex;
   flex-direction: column;
   max-width: 78%;
+  min-width: 0;
+}
+
+.bot-row,
+.user-row{
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 14px;
+  width: 100%;
+}
+
+.bot-message,
+.user-message{
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+  box-sizing: border-box;
 }
 
 .sender-name{
@@ -511,6 +530,11 @@ body:not(.dark-mode) .ghost:hover .btn-icon{
   line-height: 1.45;
   padding: 12px 14px;
   word-wrap: break-word;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
 .bot-message{
