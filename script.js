@@ -114,7 +114,7 @@ async function sendMessage() {
   addTypingMessage();
 
   try {
-    const response = await fetch("/chat", {
+    const response = await fetch(`${BACKEND_URL}/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
