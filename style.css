@@ -806,13 +806,12 @@ body:not(.dark-mode) .send-btn.active:hover{
 .gallery-container{
   width: min(820px, 100%);
   max-width: 100%;
-  margin: 14px 0 0 120px;
+  margin: 14px 0 0 240px;
   background: #ffffff;
   border: 1px solid #e5e5e5;
   box-sizing: border-box;
   padding: 22px 22px 18px;
   position: relative;
-  left: -10;
 }
 
 .gallery-container h2{
