@@ -395,17 +395,15 @@ document.addEventListener("DOMContentLoaded", function () {
   const certificateModalOverlay = document.getElementById("certificateModalOverlay");
   const certificateModalClose = document.getElementById("certificateModalClose");
   const certificateModalImage = document.getElementById("certificateModalImage");
-  const certificateModalTitle = document.getElementById("certificateModalTitle");
 
-  function openCertificateModal(imageSrc, title) {
-    if (!certificateModal || !certificateModalImage || !certificateModalTitle) return;
+function openCertificateModal(imageSrc, title) {
+  if (!certificateModal || !certificateModalImage) return;
 
-    certificateModalImage.src = imageSrc;
-    certificateModalImage.alt = title;
-    certificateModalTitle.textContent = title;
-    certificateModal.classList.add("show");
-    document.body.classList.add("modal-open");
-  }
+  certificateModalImage.src = imageSrc;
+  certificateModalImage.alt = title;
+  certificateModal.classList.add("show");
+  document.body.classList.add("modal-open");
+}
 
   function closeCertificateModal() {
     if (!certificateModal || !certificateModalImage) return;
@@ -415,14 +413,13 @@ document.addEventListener("DOMContentLoaded", function () {
     certificateModalImage.src = "";
   }
 
-  if (
-    certificateItems.length &&
-    certificateModal &&
-    certificateModalOverlay &&
-    certificateModalClose &&
-    certificateModalImage &&
-    certificateModalTitle
-  ) {
+if (
+  certificateItems.length &&
+  certificateModal &&
+  certificateModalOverlay &&
+  certificateModalClose &&
+  certificateModalImage
+) {
     certificateItems.forEach((item) => {
       item.addEventListener("click", function () {
         const imageSrc = this.getAttribute("data-cert");
