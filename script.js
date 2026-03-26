@@ -459,3 +459,41 @@ async function submitEmailForm(event) {
     submitBtn.disabled = false;
   }
 }
+
+const certificateItems = document.querySelectorAll(".certificate-item");
+const certificateModal = document.getElementById("certificateModal");
+const certificateModalOverlay = document.getElementById("certificateModalOverlay");
+const certificateModalClose = document.getElementById("certificateModalClose");
+const certificateModalImage = document.getElementById("certificateModalImage");
+const certificateModalTitle = document.getElementById("certificateModalTitle");
+
+function openCertificateModal(imageSrc, title) {
+  certificateModalImage.src = imageSrc;
+  certificateModalImage.alt = title;
+  certificateModalTitle.textContent = title;
+  certificateModal.classList.add("show");
+  document.body.classList.add("modal-open");
+}
+
+function closeCertificateModal() {
+  certificateModal.classList.remove("show");
+  document.body.classList.remove("modal-open");
+  certificateModalImage.src = "";
+}
+
+certificateItems.forEach((item) => {
+  item.addEventListener("click", () => {
+    const imageSrc = item.getAttribute("data-cert");
+    const title = item.getAttribute("data-title") || "Certificate Preview";
+    openCertificateModal(imageSrc, title);
+  });
+});
+
+certificateModalClose.addEventListener("click", closeCertificateModal);
+certificateModalOverlay.addEventListener("click", closeCertificateModal);
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && certificateModal.classList.contains("show")) {
+    closeCertificateModal();
+  }
+});
