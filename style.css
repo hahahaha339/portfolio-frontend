@@ -1268,19 +1268,26 @@ textarea:-webkit-autofill{
 }
 
 .certificate-modal-close{
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  width: 38px;
-  height: 38px;
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  width: 44px;
+  height: 44px;
   border: none;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92);
-  color: #111;
-  font-size: 28px;
+  background: rgba(255,255,255,0.16);
+  color: #ffffff;
+  font-size: 30px;
   line-height: 1;
   cursor: pointer;
-  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100000;
+}
+
+.certificate-modal-close:hover{
+  background: rgba(255,255,255,0.24);
 }
 
 body.modal-open{
