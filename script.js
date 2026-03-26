@@ -444,44 +444,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-    input.addEventListener("input", updateCharCount);
-    updateCharCount();
-  }
-
-  if (sendBtn) {
-    sendBtn.addEventListener("click", function () {
-      if (isBotReplying) return;
-      sendMessage();
-    });
-  }
-
-  if (slider) {
-    slider.addEventListener("scroll", updateGalleryNav, { passive: true });
-    window.addEventListener("resize", updateGalleryNav);
-    updateGalleryNav();
-  }
-
-  if (emailForm) {
-    emailForm.addEventListener("submit", submitEmailForm);
-  }
-
-  if (emailModal) {
-    emailModal.addEventListener("click", function (e) {
-      if (e.target === emailModal) {
-        closeEmailModal();
-      }
-    });
-  }
-
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") {
-      closeEmailModal();
-    }
-  });
-
-  initGalleryLightbox();
-});
-
 function openEmailModal() {
   const modal = document.getElementById("emailModal");
   if (!modal) return;
