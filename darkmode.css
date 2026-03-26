@@ -659,3 +659,20 @@ textarea:-webkit-autofill{
     opacity: 1;
   }
 }
+
+body.dark-mode .certificate-modal{
+  background: rgba(0, 0, 0, 0.92);
+}
+
+body.dark-mode .certificate-modal-close{
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+body.dark-mode .certificate-modal-close:hover{
+  background: rgba(255, 255, 255, 0.24);
+}
+
+body.dark-mode .certificate-modal-image-wrap img{
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
