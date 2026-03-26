@@ -1268,7 +1268,7 @@ textarea:-webkit-autofill{
 }
 
 .certificate-modal-close{
-  position: fixed;
+  position: absolute;
   top: 18px;
   right: 18px;
   width: 44px;
