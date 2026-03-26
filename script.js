@@ -348,9 +348,7 @@ document.addEventListener("DOMContentLoaded", function () {
     input.addEventListener("keydown", function (event) {
       if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();
-
         if (isBotReplying) return;
-
         sendMessage();
       }
     });
@@ -392,7 +390,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   initGalleryLightbox();
 
-  /* CERTIFICATE MODAL */
   const certificateItems = document.querySelectorAll(".certificate-item");
   const certificateModal = document.getElementById("certificateModal");
   const certificateModalOverlay = document.getElementById("certificateModalOverlay");
@@ -418,7 +415,14 @@ document.addEventListener("DOMContentLoaded", function () {
     certificateModalImage.src = "";
   }
 
-  if (certificateItems.length && certificateModal && certificateModalOverlay && certificateModalClose && certificateModalImage && certificateModalTitle) {
+  if (
+    certificateItems.length &&
+    certificateModal &&
+    certificateModalOverlay &&
+    certificateModalClose &&
+    certificateModalImage &&
+    certificateModalTitle
+  ) {
     certificateItems.forEach((item) => {
       item.addEventListener("click", function () {
         const imageSrc = this.getAttribute("data-cert");
