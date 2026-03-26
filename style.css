@@ -1174,7 +1174,7 @@ textarea:-webkit-autofill{
 .certificate-item{
   position: relative;
   display: block;
-  padding: 14px 16px;
+  padding: 10px 12px;
   cursor: pointer;
   overflow: hidden;
   background: transparent;
@@ -1191,18 +1191,18 @@ textarea:-webkit-autofill{
 }
 
 .certificate-info h4{
-  margin: 0 0 4px;
-  font-size: 16px;
+  margin: 0 0 2px;
+  font-size: 13px;
   font-weight: 700;
   color: #111;
-  line-height: 1.35;
+  line-height: 1.25;
 }
 
 .certificate-info p{
   margin: 0;
-  font-size: 14px;
-  color: #222;
-  line-height: 1.4;
+  font-size: 11px;
+  color: #111;
+  line-height: 1.25;
 }
 
 .certificate-modal{
