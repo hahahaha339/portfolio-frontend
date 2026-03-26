@@ -1174,41 +1174,32 @@ textarea:-webkit-autofill{
 .certificate-item {
   position: relative;
   display: block;
-  padding: 12px 0;
+  padding: 12px 14px;
   border-top: 1px solid #f0f0f0;
   cursor: pointer;
   overflow: hidden;
+  background: transparent;
+  transition: background-color 0.25s ease;
 }
 
 .certificate-item::after {
   content: "";
   position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 2px;
-  background: #111;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.28s ease;
+  inset: 2px;
+  background: #e9e9e9;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 0;
 }
 
 .certificate-item:hover::after {
-  transform: scaleX(1);
-}
-.certificate-info h4 {
-  margin: 0 0 2px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #111;
-  line-height: 1.3;
+  opacity: 1;
 }
 
-.certificate-info p {
-  margin: 0;
-  font-size: 13px;
-  color: #333;
-  line-height: 1.3;
+.certificate-item h3,
+.certificate-item p {
+  position: relative;
+  z-index: 1;
 }
 
 .certificate-modal {
