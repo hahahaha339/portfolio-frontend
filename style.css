@@ -1171,17 +1171,31 @@ textarea:-webkit-autofill{
 }
 
 .certificate-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: block;
+  text-decoration: none;
+  color: inherit;
   padding: 12px 0;
   border-top: 1px solid #f0f0f0;
-  gap: 12px;
+  transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+  cursor: pointer;
 }
 
 .certificates-list .certificate-item:first-child {
   border-top: none;
   padding-top: 0;
+}
+
+.certificate-item:hover {
+  opacity: 0.85;
+}
+
+.certificate-item,
+.certificate-item:visited,
+.certificate-item:hover,
+.certificate-item:focus,
+.certificate-item:active {
+  text-decoration: none;
+  color: #111;
 }
 
 .certificate-info h4 {
@@ -1195,18 +1209,6 @@ textarea:-webkit-autofill{
   margin: 0;
   font-size: 13px;
   color: #666;
-}
-
-.certificate-badge {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 3px 10px;
-  background: #edf7f1;
-  color: #18864b;
-  border: 1px solid #c3e6d2;
-  white-space: nowrap;
-  flex-shrink: 0;
 }
 
 @media (max-width: 768px){
