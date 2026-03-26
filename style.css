@@ -1881,16 +1881,22 @@ textarea:-webkit-autofill{
 }
 
 .gallery-container{
-  width: 100%;
+  width: 90%;
   max-width: 100%;
-  left: 0;
-  margin: 16px auto 0;
-  padding: 16px 14px 14px;
+  margin: 14px auto 0;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
   box-sizing: border-box;
+  padding: 22px 22px 18px;
+  position: relative;
+  margin-left: 120px;
 }
 
 .gallery-container h2{
-  font-size: 20px;
+  margin: 0 0 14px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
 }
 
 .gallery-slider{
