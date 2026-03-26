@@ -199,28 +199,38 @@
   <h2>Certifications</h2>
 
   <div class="certificates-list">
-
-    <a href="Certificates/ai-for-oceans-hour-of-code.png" target="_blank" class="certificate-item">
+    <div
+      class="certificate-item"
+      data-cert="Certificates/ai-for-oceans-hour-of-code.png"
+      data-title="AI for Oceans Hour of Code"
+    >
       <div class="certificate-info">
         <h4>AI for Oceans Hour of Code</h4>
         <p>Code.org · 2025</p>
       </div>
-    </a>
+    </div>
 
-    <a href="Certificates/ai-ready-asean-hour-of-code-session.png" target="_blank" class="certificate-item">
+    <div
+      class="certificate-item"
+      data-cert="Certificates/ai-ready-asean-hour-of-code-session.png"
+      data-title="AI Ready ASEAN Hour of Code Session"
+    >
       <div class="certificate-info">
         <h4>AI Ready ASEAN Hour of Code Session</h4>
         <p>AI Ready ASEAN · October 2025</p>
       </div>
-    </a>
+    </div>
 
-    <a href="Certificates/ethical-hacking-and-responsible-disclosure.png" target="_blank" class="certificate-item">
+    <div
+      class="certificate-item"
+      data-cert="Certificates/ethical-hacking-and-responsible-disclosure.png"
+      data-title="Ethical Hacking and Responsible Disclosure"
+    >
       <div class="certificate-info">
         <h4>Ethical Hacking and Responsible Disclosure</h4>
         <p>West Visayas State University · October 2025</p>
       </div>
-    </a>
-
+    </div>
   </div>
 </div>
 
@@ -378,5 +388,22 @@
   <footer class="site-footer">
     <p>© 2026 Gabriel Lazaro. All Rights Reserved.</p>
   </footer>
+
+  <div class="certificate-modal" id="certificateModal">
+  <div class="certificate-modal-overlay" id="certificateModalOverlay"></div>
+
+  <div class="certificate-modal-content">
+    <button class="certificate-modal-close" id="certificateModalClose" aria-label="Close modal">
+      &times;
+    </button>
+
+    <h3 id="certificateModalTitle">Certificate Preview</h3>
+
+    <div class="certificate-modal-image-wrap">
+      <img id="certificateModalImage" src="" alt="Certificate Preview">
+    </div>
+  </div>
+</div>
+  
 </body>
 </html>
