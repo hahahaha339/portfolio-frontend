@@ -804,7 +804,7 @@ body:not(.dark-mode) .send-btn.active:hover{
 }
 
 .gallery-container{
-  width: min(950px, 100%);
+  width: min(920px, 100%);
   max-width: 100%;
   margin: 14px 0 0 480px;
   background: #ffffff;
