@@ -401,6 +401,7 @@ function openCertificateModal(imageSrc) {
 
   certificateModalImage.src = imageSrc;
   certificateModalImage.alt = "Certificate Preview";
+
   certificateModal.classList.add("show");
   document.body.classList.add("modal-open");
 }
@@ -410,7 +411,12 @@ function closeCertificateModal() {
 
   certificateModal.classList.remove("show");
   document.body.classList.remove("modal-open");
-  certificateModalImage.src = "";
+
+  setTimeout(() => {
+    if (!certificateModal.classList.contains("show")) {
+      certificateModalImage.src = "";
+    }
+  }, 250);
 }
 
 if (
