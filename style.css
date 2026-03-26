@@ -1182,7 +1182,6 @@ textarea:-webkit-autofill{
 
 .certificate-item:hover {
   background: #e7e9ed;
-  transform: translateY(-1px);
 }
 
 .certificate-item:hover .certificate-info h4 {
