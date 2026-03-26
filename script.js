@@ -390,11 +390,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   initGalleryLightbox();
 
-  const certificateItems = document.querySelectorAll(".certificate-item");
-  const certificateModal = document.getElementById("certificateModal");
-  const certificateModalOverlay = document.getElementById("certificateModalOverlay");
-  const certificateModalClose = document.getElementById("certificateModalClose");
-  const certificateModalImage = document.getElementById("certificateModalImage");
+const certificateItems = document.querySelectorAll(".certificate-item");
+const certificateModal = document.getElementById("certificateModal");
+const certificateModalOverlay = document.getElementById("certificateModalOverlay");
+const certificateModalClose = document.getElementById("certificateModalClose");
+const certificateModalImage = document.getElementById("certificateModalImage");
 
 function openCertificateModal(imageSrc) {
   if (!certificateModal || !certificateModalImage) return;
@@ -405,13 +405,13 @@ function openCertificateModal(imageSrc) {
   document.body.classList.add("modal-open");
 }
 
-  function closeCertificateModal() {
-    if (!certificateModal || !certificateModalImage) return;
+function closeCertificateModal() {
+  if (!certificateModal || !certificateModalImage) return;
 
-    certificateModal.classList.remove("show");
-    document.body.classList.remove("modal-open");
-    certificateModalImage.src = "";
-  }
+  certificateModal.classList.remove("show");
+  document.body.classList.remove("modal-open");
+  certificateModalImage.src = "";
+}
 
 if (
   certificateItems.length &&
@@ -420,15 +420,23 @@ if (
   certificateModalClose &&
   certificateModalImage
 ) {
-    certificateItems.forEach((item) => {
-      item.addEventListener("click", function () {
-        const imageSrc = this.getAttribute("data-cert");
-        const title = this.getAttribute("data-title") || "Certificate Preview";
-
-        if (!imageSrc) return;
-        openCertificateModal(imageSrc, title);
-      });
+  certificateItems.forEach((item) => {
+    item.addEventListener("click", function () {
+      const imageSrc = this.getAttribute("data-cert");
+      if (!imageSrc) return;
+      openCertificateModal(imageSrc);
     });
+  });
+
+  certificateModalClose.addEventListener("click", closeCertificateModal);
+  certificateModalOverlay.addEventListener("click", closeCertificateModal);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && certificateModal.classList.contains("show")) {
+      closeCertificateModal();
+    }
+  });
+}
 
     certificateModalClose.addEventListener("click", closeCertificateModal);
     certificateModalOverlay.addEventListener("click", closeCertificateModal);
