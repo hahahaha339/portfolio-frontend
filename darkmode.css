@@ -682,6 +682,5 @@ body.dark-mode .certificate-item:hover{
 }
 
 body.dark-mode .certificate-item:hover .certificate-info h4,
-body.dark-mode .certificate-item:hover .certificate-info p{
   color: #ffffff;
 }
