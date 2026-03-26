@@ -522,6 +522,30 @@ body.dark-mode .gallery-img{
   background: #1d222c;
 }
 
+.certificates-container {
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+.certificates-container h2,
+.certificate-info h4 {
+  color: var(--text);
+}
+
+.certificate-info p {
+  color: var(--muted);
+}
+
+.certificate-item {
+  border-top: 1px solid var(--border);
+}
+
+body.dark-mode .certificate-badge {
+  background: #1a2e22;
+  color: #4caf78;
+  border: 1px solid #2a4a35;
+}
+
 body.dark-mode .gallery-nav{
   background: #171a21;
   border: 1px solid #39414f;
