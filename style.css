@@ -1346,7 +1346,7 @@ body.modal-open{
   box-sizing: border-box;
   padding: 14px 16px;
   margin-left: 40px;
-  min-height: 150px;
+  min-height: 140px;
 }
 
 .tagline-section {
