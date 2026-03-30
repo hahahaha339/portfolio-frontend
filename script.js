@@ -597,10 +597,10 @@ if (status) {
   const taglines = [
     "Building one project at a time.",
     "Code. Learn. Repeat.",
-    "Turning ideas into working software."
-    "Writing code, solving problems."
-    "Turning logic into experience."
-    "Where ideas meet execution."
+    "Turning ideas into working software.",
+    "Writing code, solving problems.",
+    "Turning logic into experience.",
+    "Where ideas meet execution.",
     "Functional. Simple. Effective."
   ];
   let currentTagline = 0;
