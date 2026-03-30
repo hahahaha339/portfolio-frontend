@@ -591,3 +591,44 @@ if (status) {
   status.classList.add("error");
 }
 }
+
+// TAGLINE SECTION
+(function () {
+  const taglines = [
+    "Building one project at a time.",
+    "Code. Learn. Repeat.",
+    "Turning ideas into working software."
+  ];
+  let currentTagline = 0;
+  let taglineInterval = null;
+
+  window.switchTagline = function (index) {
+    const el = document.getElementById("taglineText");
+    const dots = document.querySelectorAll(".tagline-dot");
+
+    if (!el || !dots.length) return;
+
+    el.style.opacity = "0";
+
+    setTimeout(function () {
+      currentTagline = index;
+      el.textContent = taglines[index];
+      el.style.opacity = "1";
+    }, 200);
+
+    dots.forEach(function (dot, i) {
+      dot.classList.toggle("active", i === index);
+    });
+
+    clearInterval(taglineInterval);
+    taglineInterval = setInterval(autoRotateTagline, 3500);
+  };
+
+  function autoRotateTagline() {
+    switchTagline((currentTagline + 1) % taglines.length);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    taglineInterval = setInterval(autoRotateTagline, 3500);
+  });
+})();
