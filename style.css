@@ -1339,14 +1339,14 @@ body.modal-open{
 }
 
 /* TAGLINE SECTION */
-
 .motto-container{
   width: 120%;
   background: #ffffff;
   border: 1px solid #e5e5e5;
   box-sizing: border-box;
-  padding: 34.5px 16px;
+  padding: 14px 16px;
   margin-left: 40px;
+  min-height: 150px;
 }
 
 .tagline-section {
