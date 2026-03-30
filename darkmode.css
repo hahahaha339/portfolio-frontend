@@ -684,3 +684,28 @@ body.dark-mode .certificate-item:hover{
 body.dark-mode .certificate-item:hover .certificate-info h4{
   color: #ffffff;
 }
+
+/* TAGLINE DARK MODE */
+body.dark-mode .tagline-divider {
+  background: #2b313c;
+}
+
+body.dark-mode .tagline-label {
+  color: #6b7280;
+}
+
+body.dark-mode .tagline-text {
+  color: #a9b0bb;
+}
+
+body.dark-mode .tagline-dot {
+  background: #39414f;
+}
+
+body.dark-mode .tagline-dot.active {
+  background: #f5f7fa;
+}
+
+body.dark-mode .tagline-dot:hover {
+  background: #6b7280;
+}
