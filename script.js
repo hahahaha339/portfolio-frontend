@@ -41,13 +41,17 @@ function addUserMessage(message) {
   const userRow = document.createElement("div");
   userRow.className = "user-row";
 
-  userRow.innerHTML = `
-    <div class="message-group">
-      <div class="message user-message">${message}</div>
-    </div>
-  `;
+  const messageGroup = document.createElement("div");
+  messageGroup.className = "message-group";
 
+  const messageEl = document.createElement("div");
+  messageEl.className = "message user-message";
+  messageEl.textContent = message;
+
+  messageGroup.appendChild(messageEl);
+  userRow.appendChild(messageGroup);
   chatBody.appendChild(userRow);
+
   scrollChatToBottom();
 }
 
@@ -61,15 +65,28 @@ function addBotMessage(message) {
   const botRow = document.createElement("div");
   botRow.className = "bot-row";
 
-  botRow.innerHTML = `
-    <img src="${avatarSrc}" alt="Gabriel" class="message-avatar theme-avatar">
-    <div class="message-group">
-      <div class="sender-name">Gabriel Lazaro</div>
-      <div class="message bot-message">${message}</div>
-    </div>
-  `;
+  const avatar = document.createElement("img");
+  avatar.src = avatarSrc;
+  avatar.alt = "Gabriel";
+  avatar.className = "message-avatar theme-avatar";
 
+  const messageGroup = document.createElement("div");
+  messageGroup.className = "message-group";
+
+  const senderName = document.createElement("div");
+  senderName.className = "sender-name";
+  senderName.textContent = "Gabriel Lazaro";
+
+  const messageEl = document.createElement("div");
+  messageEl.className = "message bot-message";
+  messageEl.textContent = message;
+
+  messageGroup.appendChild(senderName);
+  messageGroup.appendChild(messageEl);
+  botRow.appendChild(avatar);
+  botRow.appendChild(messageGroup);
   chatBody.appendChild(botRow);
+
   scrollChatToBottom();
 }
 
@@ -84,19 +101,33 @@ function addTypingMessage() {
   typingRow.className = "bot-row";
   typingRow.id = "typingMessage";
 
-  typingRow.innerHTML = `
-    <img src="${avatarSrc}" alt="Gabriel" class="message-avatar theme-avatar">
-    <div class="message-group">
-      <div class="sender-name">Gabriel Lazaro</div>
-      <div class="message bot-message typing-bubble">
-        <span class="typing-dot"></span>
-        <span class="typing-dot"></span>
-        <span class="typing-dot"></span>
-      </div>
-    </div>
-  `;
+  const avatar = document.createElement("img");
+  avatar.src = avatarSrc;
+  avatar.alt = "Gabriel";
+  avatar.className = "message-avatar theme-avatar";
 
+  const messageGroup = document.createElement("div");
+  messageGroup.className = "message-group";
+
+  const senderName = document.createElement("div");
+  senderName.className = "sender-name";
+  senderName.textContent = "Gabriel Lazaro";
+
+  const typingBubble = document.createElement("div");
+  typingBubble.className = "message bot-message typing-bubble";
+
+  for (let i = 0; i < 3; i += 1) {
+    const dot = document.createElement("span");
+    dot.className = "typing-dot";
+    typingBubble.appendChild(dot);
+  }
+
+  messageGroup.appendChild(senderName);
+  messageGroup.appendChild(typingBubble);
+  typingRow.appendChild(avatar);
+  typingRow.appendChild(messageGroup);
   chatBody.appendChild(typingRow);
+
   scrollChatToBottom();
 }
 
@@ -170,7 +201,6 @@ function updateCharCount() {
 
 function applyTheme(theme) {
   const body = document.body;
-  const themeText = document.querySelector(".theme-text");
   const themeIcon = document.querySelector(".theme-icon");
 
   const lightAvatar = document.querySelector(".light-avatar");
@@ -181,15 +211,13 @@ function applyTheme(theme) {
 
   if (theme === "dark") {
     body.classList.add("dark-mode");
-    if (themeText) themeText.textContent = "Light";
-    if (themeIcon) themeIcon.textContent = "☀️";
+    if (themeIcon) themeIcon.textContent = "";
 
     if (lightAvatar) lightAvatar.classList.remove("active");
     if (darkAvatar) darkAvatar.classList.add("active");
   } else {
     body.classList.remove("dark-mode");
-    if (themeText) themeText.textContent = "Dark";
-    if (themeIcon) themeIcon.textContent = "🌙";
+    if (themeIcon) themeIcon.textContent = "";
 
     if (darkAvatar) darkAvatar.classList.remove("active");
     if (lightAvatar) lightAvatar.classList.add("active");
@@ -204,7 +232,6 @@ function toggleTheme() {
   const isDark = document.body.classList.contains("dark-mode");
   const nextTheme = isDark ? "light" : "dark";
 
-  localStorage.setItem("theme", nextTheme);
   applyTheme(nextTheme);
 }
 
@@ -216,7 +243,7 @@ function getGalleryStep() {
   if (!firstImage) return 0;
 
   const imageWidth = firstImage.offsetWidth;
-  const gap = parseInt(window.getComputedStyle(slider).gap) || 0;
+  const gap = parseInt(window.getComputedStyle(slider).gap, 10) || 0;
 
   return imageWidth + gap;
 }
@@ -237,6 +264,11 @@ function updateGalleryNav() {
 
   prevBtn.disabled = isAtStart;
   nextBtn.disabled = isAtEnd;
+
+  prevBtn.setAttribute("aria-disabled", String(isAtStart));
+  nextBtn.setAttribute("aria-disabled", String(isAtEnd));
+  prevBtn.title = isAtStart ? "Start of gallery" : "Previous";
+  nextBtn.title = isAtEnd ? "End of gallery" : "Next";
 
   prevBtn.classList.toggle("is-disabled", isAtStart);
   nextBtn.classList.toggle("is-disabled", isAtEnd);
@@ -278,18 +310,27 @@ function createGalleryLightbox() {
   const lightbox = document.createElement("div");
   lightbox.id = "galleryLightbox";
   lightbox.className = "gallery-lightbox";
-  lightbox.innerHTML = `
-    <button class="lightbox-close" aria-label="Close preview">&times;</button>
-    <img class="lightbox-image" src="" alt="Gallery preview">
-  `;
 
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "lightbox-close";
+  closeBtn.setAttribute("aria-label", "Close preview");
+  closeBtn.textContent = "\u00D7";
+
+  const lightboxImage = document.createElement("img");
+  lightboxImage.className = "lightbox-image";
+  lightboxImage.src = "";
+  lightboxImage.alt = "";
+
+  lightbox.appendChild(closeBtn);
+  lightbox.appendChild(lightboxImage);
   document.body.appendChild(lightbox);
-
-  const closeBtn = lightbox.querySelector(".lightbox-close");
 
   function closeLightbox() {
     lightbox.classList.remove("show");
     document.body.classList.remove("lightbox-open");
+    lightboxImage.alt = "";
+    lightboxImage.removeAttribute("src");
+    lightboxImage.classList.remove("is-loading");
   }
 
   closeBtn.addEventListener("click", closeLightbox);
@@ -312,11 +353,23 @@ function openGalleryLightbox(imageSrc, imageAlt = "Gallery preview") {
   if (!lightbox) return;
 
   const lightboxImage = lightbox.querySelector(".lightbox-image");
-  lightboxImage.src = imageSrc;
   lightboxImage.alt = imageAlt;
+  lightboxImage.classList.add("is-loading");
+  lightboxImage.removeAttribute("src");
 
   lightbox.classList.add("show");
   document.body.classList.add("lightbox-open");
+
+  const nextImage = new Image();
+  nextImage.onload = function () {
+    lightboxImage.src = imageSrc;
+    lightboxImage.classList.remove("is-loading");
+  };
+  nextImage.onerror = function () {
+    lightboxImage.src = imageSrc;
+    lightboxImage.classList.remove("is-loading");
+  };
+  nextImage.src = imageSrc;
 }
 
 function initGalleryLightbox() {
@@ -329,7 +382,7 @@ function initGalleryLightbox() {
     img.style.cursor = "zoom-in";
 
     img.addEventListener("click", function () {
-      openGalleryLightbox(this.src, this.alt || "Gallery preview");
+      openGalleryLightbox(this.currentSrc || this.src, this.alt || "Gallery preview");
     });
   });
 }
@@ -341,8 +394,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const emailModal = document.getElementById("emailModal");
   const sendBtn = document.getElementById("sendBtn");
 
-  const savedTheme = localStorage.getItem("theme") || "light";
-  applyTheme(savedTheme);
+  applyTheme("light");
 
   if (input) {
     input.addEventListener("keydown", function (event) {
@@ -390,59 +442,60 @@ document.addEventListener("DOMContentLoaded", function () {
 
   initGalleryLightbox();
 
-const certificateItems = document.querySelectorAll(".certificate-item");
-const certificateModal = document.getElementById("certificateModal");
-const certificateModalOverlay = document.getElementById("certificateModalOverlay");
-const certificateModalClose = document.getElementById("certificateModalClose");
-const certificateModalImage = document.getElementById("certificateModalImage");
+  const certificateItems = document.querySelectorAll(".certificate-item");
+  const certificateModal = document.getElementById("certificateModal");
+  const certificateModalOverlay = document.getElementById("certificateModalOverlay");
+  const certificateModalClose = document.getElementById("certificateModalClose");
+  const certificateModalImage = document.getElementById("certificateModalImage");
 
-function openCertificateModal(imageSrc) {
-  if (!certificateModal || !certificateModalImage) return;
+  function openCertificateModal(imageSrc) {
+    if (!certificateModal || !certificateModalImage) return;
 
-  certificateModalImage.src = imageSrc;
-  certificateModalImage.alt = "Certificate Preview";
+    certificateModalImage.src = imageSrc;
+    certificateModalImage.alt = "Certificate Preview";
 
-  certificateModal.classList.add("show");
-  document.body.classList.add("modal-open");
-}
+    certificateModal.classList.add("show");
+    document.body.classList.add("modal-open");
+  }
 
-function closeCertificateModal() {
-  if (!certificateModal || !certificateModalImage) return;
+  function closeCertificateModal() {
+    if (!certificateModal || !certificateModalImage) return;
 
-  certificateModal.classList.remove("show");
-  document.body.classList.remove("modal-open");
+    certificateModal.classList.remove("show");
+    document.body.classList.remove("modal-open");
 
-  setTimeout(() => {
-    if (!certificateModal.classList.contains("show")) {
-      certificateModalImage.src = "";
-    }
-  }, 250);
-}
+    setTimeout(() => {
+      if (!certificateModal.classList.contains("show")) {
+        certificateModalImage.src = "";
+      }
+    }, 250);
+  }
 
-if (
-  certificateItems.length &&
-  certificateModal &&
-  certificateModalOverlay &&
-  certificateModalClose &&
-  certificateModalImage
-) {
-  certificateItems.forEach((item) => {
-    item.addEventListener("click", function () {
-      const imageSrc = this.getAttribute("data-cert");
-      if (!imageSrc) return;
-      openCertificateModal(imageSrc);
+  if (
+    certificateItems.length &&
+    certificateModal &&
+    certificateModalOverlay &&
+    certificateModalClose &&
+    certificateModalImage
+  ) {
+    certificateItems.forEach((item) => {
+      item.addEventListener("click", function (event) {
+        event.preventDefault();
+        const imageSrc = this.getAttribute("data-cert");
+        if (!imageSrc) return;
+        openCertificateModal(imageSrc);
+      });
     });
-  });
 
-  certificateModalClose.addEventListener("click", closeCertificateModal);
-  certificateModalOverlay.addEventListener("click", closeCertificateModal);
+    certificateModalClose.addEventListener("click", closeCertificateModal);
+    certificateModalOverlay.addEventListener("click", closeCertificateModal);
 
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && certificateModal.classList.contains("show")) {
-      closeCertificateModal();
-    }
-  });
-}
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && certificateModal.classList.contains("show")) {
+        closeCertificateModal();
+      }
+    });
+  }
 });
 
 function openEmailModal() {
@@ -548,32 +601,32 @@ async function submitEmailForm(event) {
         status.textContent = "";
         status.classList.remove("success", "error");
       }, 1400);
-} else {
-  if (typeof grecaptcha !== "undefined") {
-    grecaptcha.reset();
-  }
+    } else {
+      if (typeof grecaptcha !== "undefined") {
+        grecaptcha.reset();
+      }
 
-  if (recaptchaWrap) {
-    recaptchaWrap.classList.remove("show");
-  }
+      if (recaptchaWrap) {
+        recaptchaWrap.classList.remove("show");
+      }
 
-  status.textContent = "Failed to send message. Please try again.";
-  status.classList.remove("success");
-  status.classList.add("error");
-}
-} catch (error) {
-  if (typeof grecaptcha !== "undefined") {
-    grecaptcha.reset();
-  }
+      status.textContent = "Failed to send message. Please try again.";
+      status.classList.remove("success");
+      status.classList.add("error");
+    }
+  } catch (error) {
+    if (typeof grecaptcha !== "undefined") {
+      grecaptcha.reset();
+    }
 
-  if (recaptchaWrap) {
-    recaptchaWrap.classList.remove("show");
-  }
+    if (recaptchaWrap) {
+      recaptchaWrap.classList.remove("show");
+    }
 
-  status.textContent = "Network error. Please try again.";
-  status.classList.remove("success");
-  status.classList.add("error");
-} finally {
+    status.textContent = "Network error. Please try again.";
+    status.classList.remove("success");
+    status.classList.add("error");
+  } finally {
     submitBtn.disabled = false;
   }
 }
@@ -585,11 +638,11 @@ function onCaptchaExpired() {
     grecaptcha.reset();
   }
 
-if (status) {
-  status.textContent = "Captcha expired. Please verify again.";
-  status.classList.remove("success", "error");
-  status.classList.add("error");
-}
+  if (status) {
+    status.textContent = "Captcha expired. Please verify again.";
+    status.classList.remove("success", "error");
+    status.classList.add("error");
+  }
 }
 
 // TAGLINE SECTION
@@ -597,7 +650,7 @@ if (status) {
   const taglines = [
     "Building one project at a time.",
     "Code. Learn. Repeat.",
-    "Turning ideas into working software.",
+    "Turning ideas into software.",
     "Writing code, solving problems.",
     "Turning logic into experience.",
     "Where ideas meet execution.",
