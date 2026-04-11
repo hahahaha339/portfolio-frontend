@@ -66,8 +66,8 @@ body.dark-mode{
   --input-text: #e4e6eb;
   --input-border: #4e4f50;
 
-  --floating-bg: #242526;
-  --floating-text: #e4e6eb;
+  --floating-bg: #f1f3f5;
+  --floating-text: #202225;
 
   --toggle-bg: #242526;
   --toggle-text: #e4e6eb;
@@ -120,7 +120,7 @@ body.dark-mode .send-btn:disabled{
 
 /* TOGGLE BUTTON */
 .theme-toggle-wrap{
-  position: fixed;
+  position: absolute;
   top: 20px;
   right: 20px;
   z-index: 100000;
@@ -166,7 +166,7 @@ body.dark-mode .send-btn:disabled{
 .theme-toggle::before{
   content: "";
   left: 9px;
-  background-image: url("moon.png");
+  background-image: url("Logo/moon.png");
   opacity: 0.45;
   width: 20px;
   height: 20px;
@@ -175,7 +175,7 @@ body.dark-mode .send-btn:disabled{
 .theme-toggle::after{
   content: "";
   right: 11px;
-  background-image: url("sun.png");
+  background-image: url("Logo/sun.png");
   opacity: 1;
 }
 
@@ -280,7 +280,18 @@ body.dark-mode .loc-icon{
 }
 
 body.dark-mode .chat-float-icon{
-  filter: brightness(0) invert(1);
+  filter: none;
+}
+
+body.dark-mode .chat-float{
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.28);
+}
+
+body.dark-mode .chat-float:hover{
+  background: #e7eaee;
+  color: #17191c;
+  opacity: 1;
 }
 
 /* pag hover sa dark mode, black ulit para kita sa white background */
@@ -635,16 +646,35 @@ body.dark-mode .gallery-img{
   color: var(--btn-hover-text);
 }
 
+body.dark-mode .view-all-btn-proj,
+body.dark-mode .view-all-btn-tech {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: 1px solid var(--btn-border);
+}
+
+body.dark-mode .view-all-btn-proj:hover,
+body.dark-mode .view-all-btn-tech:hover {
+  background: var(--btn-hover-bg);
+  color: var(--btn-hover-text);
+}
+
 .certificate-info p {
   color: var(--muted);
 }
 
-.certificate-item {
-  border-top: 1px solid var(--border);
-}
-
 .certificate-item:hover{
   background-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .certificate-item {
+  background: #242526;
+  border-color: var(--border);
+}
+
+body.dark-mode .certificate-item:hover{
+  box-shadow: 0 8px 18px rgba(0,0,0,0.28);
+  border-color: #3a3b3c;
 }
 
 body.dark-mode .certificate-badge {
@@ -793,11 +823,8 @@ body.dark-mode .certificate-modal-image-wrap img{
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
 }
 
-body.dark-mode .certificate-item:hover{
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
 body.dark-mode .certificate-item:hover .certificate-info h4{
+  
   color: #ffffff;
 }
 

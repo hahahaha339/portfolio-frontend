@@ -1177,21 +1177,30 @@ textarea:-webkit-autofill{
   margin: 0;
 }
 
-.view-all-btn{
+.view-all-btn,
+.view-all-btn-proj,
+.view-all-btn-tech{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 7px 14px;
+  width: 80px;
+  height: 29px;
+  padding: 0 10px;
   border: 1px solid #111;
   background: #fff;
   color: #111;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 700;
+  line-height: 1;
+  box-sizing: border-box;
+  white-space: nowrap;
   transition: background .2s ease, color .2s ease, transform .2s ease;
 }
 
-.view-all-btn:hover{
+.view-all-btn:hover,
+.view-all-btn-proj:hover,
+.view-all-btn-tech:hover{
   background: #111;
   color: #fff;
   transform: translateY(-1px);
@@ -1976,9 +1985,13 @@ body.modal-open{
     align-items: flex-start;
   }
 
-  .view-all-btn{
-    padding: 7px 12px;
-    font-size: 12px;
+  .view-all-btn,
+  .view-all-btn-proj,
+  .view-all-btn-tech{
+    width: 76px;
+    height: 28px;
+    padding: 0 8px;
+    font-size: 11px;
     white-space: nowrap;
   }
 
@@ -2182,7 +2195,7 @@ padding: 18px 14px;
   flex-direction: column;
   justify-content: space-between;
 
-  height: 0px;
+  height: auto;
 }
 
 .site-footer p{

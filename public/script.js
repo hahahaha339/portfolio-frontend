@@ -3,7 +3,7 @@ let isBotReplying = false;
 
 function downloadCV() {
   const link = document.createElement("a");
-  link.href = "Gabriel-Lazaro-CV.pdf";
+  link.href = "Files/Gabriel-Lazaro-CV.pdf";
   link.download = "Gabriel-Lazaro-CV.pdf";
   document.body.appendChild(link);
   link.click();
@@ -60,7 +60,7 @@ function addBotMessage(message) {
   if (!chatBody) return;
 
   const isDark = document.body.classList.contains("dark-mode");
-  const avatarSrc = isDark ? "dark.png" : "light.png";
+  const avatarSrc = isDark ? "Images/dark.png" : "Images/light.png";
 
   const botRow = document.createElement("div");
   botRow.className = "bot-row";
@@ -95,7 +95,7 @@ function addTypingMessage() {
   if (!chatBody) return;
 
   const isDark = document.body.classList.contains("dark-mode");
-  const avatarSrc = isDark ? "dark.png" : "light.png";
+  const avatarSrc = isDark ? "Images/dark.png" : "Images/light.png";
 
   const typingRow = document.createElement("div");
   typingRow.className = "bot-row";
@@ -207,7 +207,7 @@ function applyTheme(theme) {
   const darkAvatar = document.querySelector(".dark-avatar");
 
   const themeAvatars = document.querySelectorAll(".theme-avatar");
-  const chatAvatarSrc = theme === "dark" ? "dark.png" : "light.png";
+  const chatAvatarSrc = theme === "dark" ? "Images/dark.png" : "Images/light.png";
 
   if (theme === "dark") {
     body.classList.add("dark-mode");
@@ -393,8 +393,25 @@ document.addEventListener("DOMContentLoaded", function () {
   const emailForm = document.getElementById("emailForm");
   const emailModal = document.getElementById("emailModal");
   const sendBtn = document.getElementById("sendBtn");
+  const emailMessage = document.getElementById("emailMessage");
+  const emailCharCount = document.getElementById("emailCharCount");
+
 
   applyTheme("light");
+
+  if (emailMessage && emailCharCount) {
+  emailMessage.addEventListener("input", function () {
+    const length = this.value.length;
+
+    emailCharCount.textContent = `${length}/1000`;
+
+    if (length > 900) {
+      emailCharCount.classList.add("warning");
+    } else {
+      emailCharCount.classList.remove("warning");
+    }
+  });
+}
 
   if (input) {
     input.addEventListener("keydown", function (event) {
@@ -513,33 +530,36 @@ function openEmailModal() {
 
 function closeEmailModal() {
   const modal = document.getElementById("emailModal");
-  const status = document.getElementById("emailFormStatus");
-  const recaptchaWrap = document.getElementById("recaptchaWrap");
-  const form = document.getElementById("emailForm");
-
   if (!modal) return;
 
-  modal.classList.remove("show");
-  document.body.classList.remove("email-modal-open");
+  modal.classList.add("closing");
 
-  if (form) {
-    form.reset();
-  }
+  setTimeout(() => {
+    modal.classList.remove("show");
+    modal.classList.remove("closing");
+    document.body.classList.remove("email-modal-open");
 
-  if (status) {
-    status.textContent = "";
-    status.classList.remove("success", "error");
-  }
+    const form = document.getElementById("emailForm");
+    const status = document.getElementById("emailFormStatus");
+    const recaptchaWrap = document.getElementById("recaptchaWrap");
 
-  if (recaptchaWrap) {
-    recaptchaWrap.classList.remove("show");
-  }
+    if (form) form.reset();
 
-  if (typeof grecaptcha !== "undefined") {
-    try {
-      grecaptcha.reset();
-    } catch (e) {}
-  }
+    if (status) {
+      status.textContent = "";
+      status.classList.remove("success", "error");
+    }
+
+    if (recaptchaWrap) {
+      recaptchaWrap.classList.remove("show");
+    }
+
+    if (typeof grecaptcha !== "undefined") {
+      try {
+        grecaptcha.reset();
+      } catch (e) {}
+    }
+  }, 250);
 }
 
 async function submitEmailForm(event) {
@@ -592,15 +612,16 @@ async function submitEmailForm(event) {
         recaptchaWrap.classList.remove("show");
       }
 
-      status.textContent = "Message sent successfully.";
-      status.classList.remove("error");
-      status.classList.add("success");
+status.textContent = "Message sent successfully.";
+status.classList.add("success");
 
-      setTimeout(() => {
-        closeEmailModal();
-        status.textContent = "";
-        status.classList.remove("success", "error");
-      }, 1400);
+setTimeout(() => {
+  modal.classList.add("closing"); // 👈 add closing state first
+}, 1000);
+
+setTimeout(() => {
+  closeEmailModal(); // ONLY after animation fully done
+}, 1300);
     } else {
       if (typeof grecaptcha !== "undefined") {
         grecaptcha.reset();

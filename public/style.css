@@ -2,6 +2,34 @@ html, body{
   overflow-x: hidden;
 }
 
+#root{
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.home-page{
+  min-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+}
+
+.site-footer.home-footer{
+  width: 100%;
+  max-width: none;
+  margin-top: 30px !important;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  padding-top: 50px;
+}
+
+.site-footer.home-footer p{
+  width: 450px;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 body{
   margin:0;
   min-height:100vh;
@@ -10,6 +38,10 @@ body{
   font-family: Arial, sans-serif;
   color:#111;
   animation: pageFade 0.9s ease forwards;
+}
+
+body.home-route{
+  padding-bottom: 0;
 }
 
 /* HERO / TOP SECTION */
@@ -194,8 +226,7 @@ body:not(.dark-mode) .ghost:hover .btn-icon{
 
 .about-container h2,
 .tech-stack-container h2,
-.experience-container h2,
-.recent-projects-container h2{
+.experience-container h2{
   margin: 0 0 18px;
   font-size: 22px;
   font-weight: 700;
@@ -226,6 +257,17 @@ body:not(.dark-mode) .ghost:hover .btn-icon{
   font-size: 17px;
   font-weight: 700;
   color: #111;
+}
+
+.tech-stack-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.tech-stack-header h2 {
+  margin: 0;
 }
 
 .tech-tags{
@@ -657,7 +699,7 @@ body:not(.dark-mode) .send-btn.active:hover{
   scrollbar-color: #c8ccd1 #f1f2f4;
 }
 
-.recent-projects-container{
+.recent-projects-container {
   width: 90%;
   background: #ffffff;
   border: 1px solid #e5e5e5;
@@ -667,10 +709,18 @@ body:not(.dark-mode) .send-btn.active:hover{
 }
 
 .recent-projects-container h2{
-  margin: 0 0 18px;
+  margin: 0;
   font-size: 22px;
   font-weight: 700;
   color: #111;
+}
+
+.recent-projects-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 10px;
 }
 
 .projects-grid.single-project{
@@ -998,14 +1048,20 @@ body.lightbox-open{
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.22s ease, visibility 0.22s ease;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
   z-index: 100000;
 }
 
-.email-modal.show{
+.email-modal.show {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+}
+
+.char-counter{
+  font-size: 12px;
+  color: #666;
+  text-align: right;
 }
 
 .email-modal-card{
@@ -1146,14 +1202,41 @@ body.email-modal-open{
   outline: none;
 }
 
-.form-field textarea{
+.form-field textarea {
+  resize: none;
+  overflow-y: auto;
+
   min-height: 140px;
-  resize: vertical;
+  max-height: 140px;
+}
+
+/* Chrome / Edge / Safari */
+.form-field textarea::-webkit-scrollbar {
+  width: 5px;
+}
+
+.form-field textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.form-field textarea::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+
+.form-field textarea::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .form-field input:focus,
 .form-field textarea:focus{
   border-color: #111;
+}
+
+.email-modal.closing {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 input:-webkit-autofill,
@@ -1184,7 +1267,7 @@ textarea:-webkit-autofill{
 
 .certificates-header{
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: 14px;
   margin-bottom: 18px;
@@ -1194,21 +1277,30 @@ textarea:-webkit-autofill{
   margin: 0;
 }
 
-.view-all-btn{
+.view-all-btn,
+.view-all-btn-proj,
+.view-all-btn-tech{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 7px 14px;
+  width: 80px;
+  height: 29px;
+  padding: 0 12px;
   border: 1px solid #111;
   background: #fff;
   color: #111;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 700;
+  line-height: 1;
+  box-sizing: border-box;
+  white-space: nowrap;
   transition: background .2s ease, color .2s ease, transform .2s ease;
 }
 
-.view-all-btn:hover{
+.view-all-btn:hover,
+.view-all-btn-tech:hover,
+.view-all-btn-proj:hover{
   background: #111;
   color: #fff;
   transform: translateY(-1px);
@@ -1230,12 +1322,17 @@ textarea:-webkit-autofill{
   border: 1px solid #e5e5e5;
   transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
   box-sizing: border-box;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  appearance: none;
+    outline: none;
 }
 
-.certificate-item:hover{
+.certificate-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.05);
-  border-color: #d9d9d9;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
 }
 
 .certificate-info{
