@@ -437,8 +437,15 @@ body:not(.dark-mode) .ghost:hover .btn-icon{
 
 .chat-header-left{
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
+}
+
+.chat-header-info{
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 2px;
 }
 
 .chat-header-avatar{
@@ -453,6 +460,7 @@ body:not(.dark-mode) .ghost:hover .btn-icon{
   margin: 0;
   font-size: var(--font-size-card-title);
   font-weight: var(--font-weight-semibold);
+  line-height: 1.15;
   color: #111;
 }
 
@@ -460,7 +468,8 @@ body:not(.dark-mode) .ghost:hover .btn-icon{
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 4px;
+  margin-top: 0;
+  line-height: 1;
   font-size: 13px;
   color: #333;
 }
