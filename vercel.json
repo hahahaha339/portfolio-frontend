@@ -1,15 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/projects",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/certifications",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/tech-stack",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
