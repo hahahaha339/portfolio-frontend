@@ -2,4 +2,3 @@ node_modules/
 dist/
 backend/
 repo-sync/
-vercel.json

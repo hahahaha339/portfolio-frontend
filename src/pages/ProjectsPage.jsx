@@ -157,7 +157,6 @@ export default function ProjectsPage({ theme }) {
   return (
     <>
       <Seo
-        title="Projects - Gabriel Lazaro"
         description="Browse Gabriel Lazaro's web development and software projects, including portfolio work, interfaces, and practical builds."
         path="/projects"
       />

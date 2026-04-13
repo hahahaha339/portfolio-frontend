@@ -547,7 +547,6 @@ export default function HomePage({ theme, certificatePreview, onOpenCertificate,
   return (
     <>
       <Seo
-        title="Gabriel Lazaro - IT Student Portfolio"
         description="Explore the portfolio of Gabriel Lazaro, an IT student from Metro Manila showcasing projects, certifications, tech stack, and contact information."
         path="/"
       />

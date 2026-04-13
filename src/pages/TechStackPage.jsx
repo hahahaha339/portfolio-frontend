@@ -157,7 +157,6 @@ export default function TechStackPage({ theme }) {
   return (
     <>
       <Seo
-        title="Tech Stack - Gabriel Lazaro"
         description="Explore Gabriel Lazaro's tech stack, including programming languages, frameworks, tools, and platforms used in projects and coursework."
         path="/tech-stack"
       />

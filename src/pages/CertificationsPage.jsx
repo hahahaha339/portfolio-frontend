@@ -192,7 +192,6 @@ export default function CertificationsPage({
   return (
     <>
       <Seo
-        title="Certifications - Gabriel Lazaro"
         description="View Gabriel Lazaro's certifications in technology, coding, and digital skills from academic and online learning platforms."
         path="/certifications"
       />
