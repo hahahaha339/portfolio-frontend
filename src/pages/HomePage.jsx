@@ -614,17 +614,17 @@ export default function HomePage({ theme, certificatePreview, onOpenCertificate,
             <p className="role">Aspiring Software / AI Engineer</p>
 
             <div className="actions">
-              <a href="https://calendly.com/gabriellazaro0808/30min" target="_blank" rel="noopener noreferrer" className="primary schedule-link">
+              <a href="https://calendly.com/gabriellazaro0808/30min" target="_blank" rel="noopener noreferrer" className="primary schedule-link schedule-cta">
                 <img src="/Logo/Schedule_Call.png" className="btn-icon" alt="" loading="lazy" decoding="async" />
                 Schedule a Call
               </a>
 
-              <button type="button" className="ghost" onClick={() => setEmailModalOpen(true)}>
+              <button type="button" className="ghost email-cta" onClick={() => setEmailModalOpen(true)}>
                 <img src="/Logo/Send_Email.png" className="btn-icon" alt="" loading="lazy" decoding="async" />
                 Send Email
               </button>
 
-              <button type="button" className="ghost download-btn" onClick={downloadCV}>
+              <button type="button" className="ghost download-btn download-cta" onClick={downloadCV}>
                 <img src="/Logo/Download.png" className="btn-icon" alt="" loading="lazy" decoding="async" />
                 Download CV <span className="arrow">&rsaquo;</span>
               </button>

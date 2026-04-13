@@ -852,7 +852,7 @@ body:not(.dark-mode) .send-btn.active:hover{
   background: #ffffff;
   border: 1px solid #e5e5e5;
   box-sizing: border-box;
-  padding: 22px 22px;
+  padding: 14px 16px;
   margin-left: 40px;
   min-height: 130px;
 }
@@ -900,10 +900,12 @@ body:not(.dark-mode) .send-btn.active:hover{
 }
 
 .social-link-item span{
+  display: flex;
+  align-items: center;
   font-size: var(--font-size-meta);
   font-weight: 500;
   color: #111;
-  line-height: var(--line-height-compact);
+  line-height: 1;
   min-width: 0;
 }
 

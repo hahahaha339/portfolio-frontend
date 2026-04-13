@@ -828,10 +828,12 @@ body:not(.dark-mode) .send-btn.active:hover{
   }
 
 .social-link-item span{
+  display: flex;
+  align-items: center;
   font-size: var(--font-size-meta);
   font-weight: 500;
   color: #111;
-  line-height: var(--line-height-compact);
+  line-height: 1;
 }
 
 .social-link-item,
@@ -1772,9 +1774,25 @@ body.modal-open{
 
   .actions{
     width: 100%;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "email email"
+      "schedule download";
     gap: 10px;
     align-items: stretch;
+  }
+
+  .email-cta{
+    grid-area: email;
+  }
+
+  .schedule-cta{
+    grid-area: schedule;
+  }
+
+  .download-cta{
+    grid-area: download;
   }
 
   .primary,
@@ -1791,6 +1809,13 @@ body.modal-open{
   .actions .schedule-link{
     min-height: 48px;
     box-sizing: border-box;
+  }
+
+  .actions .schedule-link,
+  .actions .download-btn{
+    font-size: 14px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   .download-btn .arrow{
@@ -1975,13 +2000,13 @@ body.modal-open{
   margin-left: 0 !important;
   margin-right: 0 !important;
   margin-top: 0;
-  padding: 18px 16px;
+  padding: 14px 14px;
   box-sizing: border-box;
   min-height: auto;
 }
 
 .social-links-container h2{
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .social-link-item{
@@ -1993,7 +2018,7 @@ body.modal-open{
   }
 
 .social-link-item span{
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .gallery-container{
@@ -2192,13 +2217,13 @@ body.modal-open{
   margin-left: 0 !important;
   margin-right: 0 !important;
   margin-top: 0;
-  padding: 16px 14px;
+  padding: 14px 14px;
   box-sizing: border-box;
   min-height: auto;
 }
 
 .social-links-container h2{
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .social-link-item{
@@ -2215,7 +2240,7 @@ body.modal-open{
   }
 
 .social-link-item span{
-    font-size: 11.5px;
+    font-size: 13px;
   }
 
 .gallery-container{
