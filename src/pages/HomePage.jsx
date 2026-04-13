@@ -10,6 +10,7 @@ import {
   TECH_STACKS,
   TIMELINE
 } from "../data";
+import Seo from "../components/Seo";
 
 function CertificateModal({ imageSrc, onClose }) {
   useEffect(() => {
@@ -31,7 +32,7 @@ function CertificateModal({ imageSrc, onClose }) {
       </button>
       <div className="certificate-modal-content">
         <div className="certificate-modal-image-wrap">
-          <img id="certificateModalImage" src={imageSrc || ""} alt="Certificate Preview" />
+          <img id="certificateModalImage" src={imageSrc || ""} alt="Certificate Preview" decoding="async" />
         </div>
       </div>
     </div>
@@ -317,14 +318,14 @@ function ChatWidget({ theme }) {
   return (
     <>
       <button className="chat-float" type="button" onClick={() => setIsOpen((current) => !current)}>
-        <img src="/Logo/chat-logo.png" className="chat-float-icon" alt="Chat Logo" />
+        <img src="/Logo/chat-logo.png" className="chat-float-icon" alt="Chat Logo" loading="lazy" decoding="async" />
         <span>Chat with Gab</span>
       </button>
 
       <div className={`chat-box${isOpen ? " show" : ""}`} id="chatBox">
         <div className="chat-header">
           <div className="chat-header-left">
-            <img src={avatarSrc} alt="Gabriel" className="chat-header-avatar theme-avatar" />
+            <img src={avatarSrc} alt="Gabriel" className="chat-header-avatar theme-avatar" loading="lazy" decoding="async" />
             <div className="chat-header-info">
               <h3>Chat with Gab</h3>
               <div className="chat-status">
@@ -346,7 +347,7 @@ function ChatWidget({ theme }) {
               </div>
             ) : (
               <div key={`bot-${index}`} className="bot-row">
-                <img src={avatarSrc} alt="Gabriel" className="message-avatar theme-avatar" />
+                <img src={avatarSrc} alt="Gabriel" className="message-avatar theme-avatar" loading="lazy" decoding="async" />
                 <div className="message-group">
                   <div className="sender-name">Gabriel Lazaro</div>
                   <div className="message bot-message">{message.text}</div>
@@ -357,7 +358,7 @@ function ChatWidget({ theme }) {
 
           {isBotReplying && (
             <div className="bot-row" id="typingMessage">
-              <img src={avatarSrc} alt="Gabriel" className="message-avatar theme-avatar" />
+              <img src={avatarSrc} alt="Gabriel" className="message-avatar theme-avatar" loading="lazy" decoding="async" />
               <div className="message-group">
                 <div className="sender-name">Gabriel Lazaro</div>
                 <div className="message bot-message typing-bubble">
@@ -491,6 +492,8 @@ function Gallery() {
                 src={image}
                 alt={`Gallery Image ${index + 1}`}
                 className="gallery-img"
+                loading="lazy"
+                decoding="async"
                 onClick={() => setSelectedImage({ src: image, alt: `Gallery Image ${index + 1}` })}
               />
             ))}
@@ -505,7 +508,7 @@ function Gallery() {
         <button className="lightbox-close" type="button" aria-label="Close preview" onClick={() => setSelectedImage(null)}>
           &times;
         </button>
-        <img className="lightbox-image" src={selectedImage?.src || ""} alt={selectedImage?.alt || ""} />
+        <img className="lightbox-image" src={selectedImage?.src || ""} alt={selectedImage?.alt || ""} decoding="async" />
       </div>
     </>
   );
@@ -515,10 +518,6 @@ export default function HomePage({ theme, certificatePreview, onOpenCertificate,
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const [currentTagline, setCurrentTagline] = useState(0);
   const isDark = theme === "dark";
-
-  useEffect(() => {
-    document.title = "Gabriel Lazaro - IT Student";
-  }, []);
 
   useEffect(() => {
     document.body.classList.add("home-route");
@@ -547,21 +546,26 @@ export default function HomePage({ theme, certificatePreview, onOpenCertificate,
 
   return (
     <>
+      <Seo
+        title="Gabriel Lazaro - IT Student Portfolio"
+        description="Explore the portfolio of Gabriel Lazaro, an IT student from Metro Manila showcasing projects, certifications, tech stack, and contact information."
+        path="/"
+      />
       <div className="home-page">
         <div className="profile-header">
           <div className="avatar-stack">
-            <img className={`avatar theme-img light-avatar${!isDark ? " active" : ""}`} src="/Images/light.png" alt="Profile Picture" />
-            <img className={`avatar theme-img dark-avatar${isDark ? " active" : ""}`} src="/Images/dark.png" alt="Profile Picture Dark" />
+            <img className={`avatar theme-img light-avatar${!isDark ? " active" : ""}`} src="/Images/light.png" alt="Profile Picture" fetchPriority="high" />
+            <img className={`avatar theme-img dark-avatar${isDark ? " active" : ""}`} src="/Images/dark.png" alt="Profile Picture Dark" fetchPriority="high" />
           </div>
 
           <div className="info">
             <div className="name-row">
               <h1 className="name">Gabriel Lazaro</h1>
-              <img src="/Logo/Blue_Check.png" className="badge-icon" alt="Verified" />
+              <img src="/Logo/Blue_Check.png" className="badge-icon" alt="Verified" loading="lazy" decoding="async" />
             </div>
 
             <p className="location">
-              <img src="/Logo/Location.png" className="loc-icon" alt="" />
+              <img src="/Logo/Location.png" className="loc-icon" alt="" loading="lazy" decoding="async" />
               Metro Manila, Philippines
             </p>
 
@@ -569,17 +573,17 @@ export default function HomePage({ theme, certificatePreview, onOpenCertificate,
 
             <div className="actions">
               <a href="https://calendly.com/gabriellazaro0808/30min" target="_blank" rel="noopener noreferrer" className="primary schedule-link">
-                <img src="/Logo/Schedule_Call.png" className="btn-icon" alt="" />
+                <img src="/Logo/Schedule_Call.png" className="btn-icon" alt="" loading="lazy" decoding="async" />
                 Schedule a Call
               </a>
 
               <button type="button" className="ghost" onClick={() => setEmailModalOpen(true)}>
-                <img src="/Logo/Send_Email.png" className="btn-icon" alt="" />
+                <img src="/Logo/Send_Email.png" className="btn-icon" alt="" loading="lazy" decoding="async" />
                 Send Email
               </button>
 
               <button type="button" className="ghost download-btn" onClick={downloadCV}>
-                <img src="/Logo/Download.png" className="btn-icon" alt="" />
+                <img src="/Logo/Download.png" className="btn-icon" alt="" loading="lazy" decoding="async" />
                 Download CV <span className="arrow">&rsaquo;</span>
               </button>
             </div>
@@ -658,7 +662,7 @@ export default function HomePage({ theme, certificatePreview, onOpenCertificate,
 
           <div className="right-column">
             <div className="id-wrapper">
-              <img src="/Images/Student_ID.jpg" className="student-id" alt="Student ID" />
+              <img src="/Images/Student_ID.jpg" className="student-id" alt="Student ID" loading="lazy" decoding="async" />
             </div>
 
             <div className="experience-container">
@@ -684,7 +688,7 @@ export default function HomePage({ theme, certificatePreview, onOpenCertificate,
               <div className="social-links-list">
                 {SOCIAL_LINKS.map((item) => (
                   <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" className="social-link-item">
-                    <img src={item.icon} alt={item.label} />
+                    <img src={item.icon} alt={item.label} loading="lazy" decoding="async" />
                     <span>{item.label}</span>
                   </a>
                 ))}

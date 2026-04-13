@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ALL_CERTIFICATIONS, BACKEND_URL } from "../data";
+import Seo from "../components/Seo";
 
 function CertificateModal({ imageSrc, onClose }) {
   useEffect(() => {
@@ -22,7 +23,7 @@ function CertificateModal({ imageSrc, onClose }) {
       </button>
       <div className="certificate-modal-content">
         <div className="certificate-modal-image-wrap">
-          <img id="certificateModalImage" src={imageSrc || ""} alt="Certificate Preview" />
+          <img id="certificateModalImage" src={imageSrc || ""} alt="Certificate Preview" decoding="async" />
         </div>
       </div>
     </div>
@@ -81,14 +82,14 @@ function ChatWidget({ theme }) {
   return (
     <>
       <button className="chat-float" type="button" onClick={() => setIsOpen((current) => !current)}>
-        <img src="/Logo/chat-logo.png" className="chat-float-icon" alt="Chat Logo" />
+        <img src="/Logo/chat-logo.png" className="chat-float-icon" alt="Chat Logo" loading="lazy" decoding="async" />
         <span>Chat with Gab</span>
       </button>
 
       <div className={`chat-box${isOpen ? " show" : ""}`} id="chatBox">
         <div className="chat-header">
           <div className="chat-header-left">
-            <img src={avatarSrc} alt="Gabriel" className="chat-header-avatar theme-avatar" />
+            <img src={avatarSrc} alt="Gabriel" className="chat-header-avatar theme-avatar" loading="lazy" decoding="async" />
             <div className="chat-header-info">
               <h3>Chat with Gab</h3>
               <div className="chat-status">
@@ -110,7 +111,7 @@ function ChatWidget({ theme }) {
               </div>
             ) : (
               <div key={`bot-${index}`} className="bot-row">
-                <img src={avatarSrc} alt="Gabriel" className="message-avatar theme-avatar" />
+                <img src={avatarSrc} alt="Gabriel" className="message-avatar theme-avatar" loading="lazy" decoding="async" />
                 <div className="message-group">
                   <div className="sender-name">Gabriel Lazaro</div>
                   <div className="message bot-message">{message.text}</div>
@@ -121,7 +122,7 @@ function ChatWidget({ theme }) {
 
           {isBotReplying && (
             <div className="bot-row" id="typingMessage">
-              <img src={avatarSrc} alt="Gabriel" className="message-avatar theme-avatar" />
+              <img src={avatarSrc} alt="Gabriel" className="message-avatar theme-avatar" loading="lazy" decoding="async" />
               <div className="message-group">
                 <div className="sender-name">Gabriel Lazaro</div>
                 <div className="message bot-message typing-bubble">
@@ -181,10 +182,6 @@ export default function CertificationsPage({
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Gabriel Lazaro - IT Student";
-  }, []);
-
-  useEffect(() => {
     document.body.classList.add("cert-route");
 
     return () => {
@@ -194,6 +191,11 @@ export default function CertificationsPage({
 
   return (
     <>
+      <Seo
+        title="Certifications - Gabriel Lazaro"
+        description="View Gabriel Lazaro's certifications in technology, coding, and digital skills from academic and online learning platforms."
+        path="/certifications"
+      />
       <div className="certifications-page">
         <div className="container">
           <button className="back-btn" type="button" onClick={() => navigate("/")}>
