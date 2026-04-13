@@ -561,7 +561,7 @@ body.dark-mode .project-domain{
 
 .social-link-item{
   color: var(--text);
-  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .social-link-item span{
@@ -617,7 +617,11 @@ body.dark-mode .social-link-item span{
 }
 
 body.dark-mode .social-link-item{
-  border-top: 1px solid #3a3b3c;
+  border-bottom: 1px solid #3a3b3c;
+}
+
+body.dark-mode .social-link-item:hover{
+  background: rgba(255, 255, 255, 0.06);
 }
 
 body.dark-mode .gallery-img{
@@ -821,11 +825,6 @@ body.dark-mode .certificate-modal-close:hover{
 
 body.dark-mode .certificate-modal-image-wrap img{
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-}
-
-body.dark-mode .certificate-item:hover .certificate-info h4{
-  
-  color: #ffffff;
 }
 
 /* TAGLINE DARK MODE */

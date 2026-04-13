@@ -148,6 +148,9 @@ function ChatWidget({ theme }) {
 
 export default function TechStackPage({ theme }) {
   const navigate = useNavigate();
+  const techStackTitleMap = {
+    "Programming Languages": "Languages"
+  };
 
   useEffect(() => {
     document.body.classList.add("cert-route");
@@ -170,7 +173,7 @@ export default function TechStackPage({ theme }) {
           <div className="tech-stack-page-list">
             {TECH_STACKS.map((section) => (
               <section key={section.category} className="tech-stack-page-card">
-                <h2 className="tech-stack-page-title">{section.category}</h2>
+                <h2 className="tech-stack-page-title">{techStackTitleMap[section.category] ?? section.category}</h2>
                 <div className="tech-stack-page-tags">
                   {section.items.map((item) => (
                     <span key={`${section.category}-${item}`} className="tech-stack-page-tag">

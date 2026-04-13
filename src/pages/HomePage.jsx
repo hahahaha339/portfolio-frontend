@@ -517,19 +517,40 @@ function Gallery() {
 export default function HomePage({ theme, certificatePreview, onOpenCertificate, onCloseCertificate }) {
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const [currentTagline, setCurrentTagline] = useState(0);
+  const [viewportWidth, setViewportWidth] = useState(() => window.innerWidth);
   const isDark = theme === "dark";
-  const techStackPreviewLimits = {
-    Frontend: 6,
-    Backend: 6,
-    "Programming Languages": 3,
-    "AI / Tools": 7
-  };
 
-  function getSocialMeta(url) {
-    if (url.includes("linkedin.com")) return "linkedin.com/in/gabrielsantoslazaro";
-    if (url.includes("github.com")) return "github.com/gabrielsantoslazaro";
-    if (url.includes("facebook.com")) return "facebook.com/xtm.gabriel09";
-    return url;
+  function getTechStackPreviewLimit(category) {
+    if (viewportWidth <= 768) {
+      const mobileLimits = {
+        Frontend: 5,
+        Backend: 5,
+        "Programming Languages": 3,
+        "AI / Tools": 5
+      };
+
+      return mobileLimits[category] ?? 5;
+    }
+
+    if (viewportWidth <= 1024) {
+      const tabletLimits = {
+        Frontend: 6,
+        Backend: 6,
+        "Programming Languages": 3,
+        "AI / Tools": 6
+      };
+
+      return tabletLimits[category] ?? 6;
+    }
+
+    const desktopLimits = {
+      Frontend: 6,
+      Backend: 6,
+      "Programming Languages": 3,
+      "AI / Tools": 7
+    };
+
+    return desktopLimits[category] ?? 6;
   }
 
   useEffect(() => {
@@ -538,6 +559,15 @@ export default function HomePage({ theme, certificatePreview, onOpenCertificate,
     return () => {
       document.body.classList.remove("home-route");
     };
+  }, []);
+
+  useEffect(() => {
+    function handleResize() {
+      setViewportWidth(window.innerWidth);
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -622,7 +652,7 @@ export default function HomePage({ theme, certificatePreview, onOpenCertificate,
       <div key={section.category} className="tech-stack-section">
       <h4>{section.category}</h4>
       <div className="tech-tags tech-tags-preview">
-        {section.items.slice(0, techStackPreviewLimits[section.category] ?? section.items.length).map((item) => (
+        {section.items.slice(0, getTechStackPreviewLimit(section.category)).map((item) => (
           <span key={`${section.category}-${item}`}>{item}</span>
         ))}
       </div>
@@ -701,10 +731,7 @@ export default function HomePage({ theme, certificatePreview, onOpenCertificate,
                   {SOCIAL_LINKS.map((item) => (
                     <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" className="social-link-item">
                       <img src={item.icon} alt={item.label} loading="lazy" decoding="async" />
-                      <div className="social-link-copy">
-                        <span>{item.label}</span>
-                        <small>{getSocialMeta(item.href)}</small>
-                      </div>
+                      <span>{item.label}</span>
                     </a>
                   ))}
                 </div>

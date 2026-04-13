@@ -7,7 +7,7 @@
 .certifications-page {
   display: flex;
   flex-direction: column;
-  min-height: calc(100dvh - 60px);
+  min-height: auto;
   overflow-x: hidden;
 }
 
@@ -36,13 +36,12 @@
   cursor: pointer;
   padding: 10px 16px;
   margin-bottom: 14px;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  transition: none;
 }
 
 .certifications-page .back-btn:hover {
   background: var(--btn-hover-bg, #111);
   color: var(--btn-hover-text, #fff);
-  transform: translateY(-1px);
 }
 
 .certifications-page .page-title {
@@ -60,41 +59,47 @@
 }
 
 .tech-stack-page .tech-stack-page-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .tech-stack-page .tech-stack-page-card {
-  background: var(--card, #ffffff);
-  border: 1px solid var(--border, #e5e5e5);
-  padding: 18px 18px 16px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
 }
 
 .tech-stack-page .tech-stack-page-title {
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 700;
-  color: var(--text, #111);
-  margin-bottom: 14px;
+  color: var(--muted, #666);
+  margin-bottom: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .tech-stack-page .tech-stack-page-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 10px 10px;
 }
 
 .tech-stack-page .tech-stack-page-tag {
   display: inline-flex;
   align-items: center;
-  min-height: 34px;
-  padding: 6px 12px;
-  background: var(--card, #fff);
+  justify-content: center;
+  min-height: 30px;
+  padding: 4px 12px;
+  background: transparent;
   border: 1px solid var(--border, #d9d9d9);
+  border-radius: 6px;
   color: var(--text, #111);
   font-size: 13px;
   font-weight: 600;
   line-height: 1.2;
+  white-space: nowrap;
 }
 
 .certifications-page .cert-card {
@@ -134,11 +139,11 @@
 .certifications-page .site-footer.cert-footer {
   width: 100%;
   max-width: none;
-  margin-top: auto !important;
+  margin-top: 30px !important;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 20px;
-  padding-top: 100px;
+  padding-top: 50px;
 }
 
 body.cert-route{
@@ -159,7 +164,7 @@ body.dark-mode .certifications-page .cert-card:hover {
 }
 
 body.dark-mode .tech-stack-page .tech-stack-page-card {
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+  box-shadow: none;
 }
 
 @media (max-width: 768px) {
@@ -184,7 +189,7 @@ body.dark-mode .tech-stack-page .tech-stack-page-card {
   }
 
   .tech-stack-page .tech-stack-page-list {
-    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 

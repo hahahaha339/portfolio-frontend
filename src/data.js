@@ -15,7 +15,7 @@ export const HOME_CERTIFICATIONS = [
   { title: "AI Ready ASEAN Hour of Code Session", issuer: "AI Ready ASEAN", image: "/Images/Hour-of-code.jfif" },
   {
     title: "APIs and Fetch: Connect Your Web App to Real Data",
-    issuer: "Programming Computer Programming Services",
+    issuer: "Computer Programming Services",
     image: "/Images/API.jpg"
   },
   {
@@ -129,7 +129,7 @@ export const TIMELINE = [
   {
     title: "Xurpas Enterprise Inc.",
     date: "2025",
-    description: "Completed my internship as a Front-End Developer, where I gained experience in building and improving user interface components for web-based applications."
+    description: "Front-End Developer intern with hands-on experience building and improving web UI components."
   },
   { title: "Academic System Projects", date: "2023", description: "Worked on school-related systems and programming projects involving web development and databases." }
 ];
