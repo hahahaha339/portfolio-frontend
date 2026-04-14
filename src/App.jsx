@@ -38,6 +38,7 @@ export default function App() {
   const [certificatePreview, setCertificatePreview] = useState("");
   const location = useLocation();
   const showThemeToggle = ["/", "/certifications", "/projects", "/tech-stack"].includes(location.pathname);
+  const certificatePreviewRoutes = ["/", "/certifications"];
 
   useEffect(() => {
     document.body.classList.toggle("dark-mode", theme === "dark");
@@ -46,6 +47,13 @@ export default function App() {
   useEffect(() => {
     document.body.classList.toggle("modal-open", Boolean(certificatePreview));
   }, [certificatePreview]);
+
+  useEffect(() => {
+    if (!certificatePreview) return;
+    if (certificatePreviewRoutes.includes(location.pathname)) return;
+
+    setCertificatePreview("");
+  }, [certificatePreview, location.pathname]);
 
   return (
     <>

@@ -31,9 +31,11 @@ function CertificateModal({ imageSrc, onClose }) {
         &times;
       </button>
       <div className="certificate-modal-content">
-        <div className="certificate-modal-image-wrap">
-          <img id="certificateModalImage" src={imageSrc || ""} alt="Certificate Preview" decoding="async" />
-        </div>
+        {imageSrc ? (
+          <div className="certificate-modal-image-wrap">
+            <img id="certificateModalImage" src={imageSrc} alt="Certificate Preview" decoding="async" />
+          </div>
+        ) : null}
       </div>
     </div>
   );
@@ -47,6 +49,7 @@ function EmailModal({ isOpen, onClose }) {
   const [statusText, setStatusText] = useState("");
   const [statusType, setStatusType] = useState("");
   const [showRecaptcha, setShowRecaptcha] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
   
@@ -152,6 +155,7 @@ function handleNameChange(e) {
 function resetForm(keepStatus = false) {
   formRef.current?.reset();
   setShowRecaptcha(true);
+  setIsSubmitting(false);
   setName("");
   setMessage("");
 
@@ -173,6 +177,7 @@ function handleClose() {
 
 async function handleSubmit(event) {
   event.preventDefault();
+  if (isSubmitting) return;
 
   setStatusText("");
   setStatusType("");
@@ -190,13 +195,12 @@ async function handleSubmit(event) {
     }
 
     const formData = new FormData(formRef.current);
-    const submitBtn = formRef.current?.querySelector(".email-submit-btn");
 
     setStatusText("Sending...");
     setStatusType("loading");
+    setIsSubmitting(true);
 
     await new Promise(r => setTimeout(r, 800));
-    if (submitBtn) submitBtn.disabled = true;
 
     try {
       const response = await fetch("https://formspree.io/f/mvgrnjpd", {
@@ -220,7 +224,7 @@ if (response.ok) {
       setStatusText("Network error. Please try again.");
       setStatusType("error");
     } finally {
-      if (submitBtn) submitBtn.disabled = false;
+      setIsSubmitting(false);
     }
   }
 
@@ -258,7 +262,7 @@ if (response.ok) {
           <div id="recaptchaWrap" className={`recaptcha-wrap${showRecaptcha ? " show" : ""}`}>
             <div ref={recaptchaRef} className="g-recaptcha"></div>
           </div>
-          <button type="submit" className="email-submit-btn">Send message</button>
+          <button type="submit" className="email-submit-btn" disabled={isSubmitting}>Send message</button>
           <p id="emailFormStatus" className={`email-form-status${statusType ? ` ${statusType}` : ""}`}>{statusText}</p>
         </form>
       </div>
@@ -411,9 +415,15 @@ function ChatWidget({ theme }) {
 
 function Gallery() {
   const sliderRef = useRef(null);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
+  const selectedImage = selectedImageIndex === null
+    ? null
+    : {
+        src: GALLERY_IMAGES[selectedImageIndex],
+        alt: `Gallery Image ${selectedImageIndex + 1}`
+      };
 
   useEffect(() => {
     document.body.classList.toggle("lightbox-open", Boolean(selectedImage));
@@ -449,12 +459,34 @@ function Gallery() {
     if (!selectedImage) return undefined;
 
     function handleEscape(event) {
-      if (event.key === "Escape") setSelectedImage(null);
+      if (event.key === "Escape") {
+        setSelectedImageIndex(null);
+      }
+
+      if (event.key === "ArrowLeft") {
+        setSelectedImageIndex((current) => (current === null || current <= 0 ? current : current - 1));
+      }
+
+      if (event.key === "ArrowRight") {
+        setSelectedImageIndex((current) =>
+          current === null || current >= GALLERY_IMAGES.length - 1 ? current : current + 1
+        );
+      }
     }
 
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
   }, [selectedImage]);
+
+  function showPreviousImage() {
+    setSelectedImageIndex((current) => (current === null || current <= 0 ? current : current - 1));
+  }
+
+  function showNextImage() {
+    setSelectedImageIndex((current) =>
+      current === null || current >= GALLERY_IMAGES.length - 1 ? current : current + 1
+    );
+  }
 
   function getGalleryStep() {
     const slider = sliderRef.current;
@@ -494,7 +526,7 @@ function Gallery() {
                 className="gallery-img"
                 loading="lazy"
                 decoding="async"
-                onClick={() => setSelectedImage({ src: image, alt: `Gallery Image ${index + 1}` })}
+                onClick={() => setSelectedImageIndex(index)}
               />
             ))}
           </div>
@@ -504,11 +536,29 @@ function Gallery() {
         </div>
       </div>
 
-      <div className={`gallery-lightbox${selectedImage ? " show" : ""}`} id="galleryLightbox" onClick={(e) => e.target.id === "galleryLightbox" && setSelectedImage(null)}>
-        <button className="lightbox-close" type="button" aria-label="Close preview" onClick={() => setSelectedImage(null)}>
+      <div className={`gallery-lightbox${selectedImage ? " show" : ""}`} id="galleryLightbox" onClick={(e) => e.target.id === "galleryLightbox" && setSelectedImageIndex(null)}>
+        <button className="lightbox-close" type="button" aria-label="Close preview" onClick={() => setSelectedImageIndex(null)}>
           &times;
         </button>
+        <button
+          className={`lightbox-nav lightbox-prev${selectedImageIndex === 0 ? " is-disabled" : ""}`}
+          type="button"
+          aria-label="Previous image"
+          onClick={showPreviousImage}
+          disabled={selectedImageIndex === 0}
+        >
+          &#8249;
+        </button>
         <img className="lightbox-image" src={selectedImage?.src || ""} alt={selectedImage?.alt || ""} decoding="async" />
+        <button
+          className={`lightbox-nav lightbox-next${selectedImageIndex === GALLERY_IMAGES.length - 1 ? " is-disabled" : ""}`}
+          type="button"
+          aria-label="Next image"
+          onClick={showNextImage}
+          disabled={selectedImageIndex === GALLERY_IMAGES.length - 1}
+        >
+          &#8250;
+        </button>
       </div>
     </>
   );

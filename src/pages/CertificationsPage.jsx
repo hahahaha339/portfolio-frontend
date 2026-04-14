@@ -22,9 +22,11 @@ function CertificateModal({ imageSrc, onClose }) {
         &times;
       </button>
       <div className="certificate-modal-content">
-        <div className="certificate-modal-image-wrap">
-          <img id="certificateModalImage" src={imageSrc || ""} alt="Certificate Preview" decoding="async" />
-        </div>
+        {imageSrc ? (
+          <div className="certificate-modal-image-wrap">
+            <img id="certificateModalImage" src={imageSrc} alt="Certificate Preview" decoding="async" />
+          </div>
+        ) : null}
       </div>
     </div>
   );
