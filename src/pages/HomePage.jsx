@@ -12,6 +12,9 @@ import {
 } from "../data";
 import Seo from "../components/Seo";
 
+const EMAIL_COOLDOWN_MS = 10 * 60 * 1000;
+const EMAIL_COOLDOWN_STORAGE_KEY = "email_form_cooldown_until";
+
 function CertificateModal({ imageSrc, onClose }) {
   useEffect(() => {
     if (!imageSrc) return undefined;
@@ -50,8 +53,36 @@ function EmailModal({ isOpen, onClose }) {
   const [statusType, setStatusType] = useState("");
   const [showRecaptcha, setShowRecaptcha] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [cooldownRemaining, setCooldownRemaining] = useState(0);
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
+
+function getCooldownRemaining() {
+  const storedValue = window.localStorage.getItem(EMAIL_COOLDOWN_STORAGE_KEY);
+  if (!storedValue) return 0;
+
+  const cooldownUntil = Number(storedValue);
+  if (!Number.isFinite(cooldownUntil)) {
+    window.localStorage.removeItem(EMAIL_COOLDOWN_STORAGE_KEY);
+    return 0;
+  }
+
+  const remaining = cooldownUntil - Date.now();
+
+  if (remaining <= 0) {
+    window.localStorage.removeItem(EMAIL_COOLDOWN_STORAGE_KEY);
+    return 0;
+  }
+
+  return remaining;
+}
+
+function formatCooldown(remainingMs) {
+  const totalSeconds = Math.ceil(remainingMs / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
+}
   
 useEffect(() => {
   if (isOpen) return;
@@ -76,6 +107,18 @@ function handleNameChange(e) {
     return () => {
       document.body.classList.remove("email-modal-open");
     };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    setCooldownRemaining(getCooldownRemaining());
+
+    const interval = window.setInterval(() => {
+      setCooldownRemaining(getCooldownRemaining());
+    }, 1000);
+
+    return () => window.clearInterval(interval);
   }, [isOpen]);
 
   useEffect(() => {
@@ -179,6 +222,15 @@ async function handleSubmit(event) {
   event.preventDefault();
   if (isSubmitting) return;
 
+  const currentCooldown = getCooldownRemaining();
+
+  if (currentCooldown > 0) {
+    setCooldownRemaining(currentCooldown);
+    setStatusText(`Please wait ${formatCooldown(currentCooldown)} before sending another message.`);
+    setStatusType("error");
+    return;
+  }
+
   setStatusText("");
   setStatusType("");
 
@@ -210,6 +262,9 @@ async function handleSubmit(event) {
       });
 
 if (response.ok) {
+  const cooldownUntil = Date.now() + EMAIL_COOLDOWN_MS;
+  window.localStorage.setItem(EMAIL_COOLDOWN_STORAGE_KEY, String(cooldownUntil));
+  setCooldownRemaining(EMAIL_COOLDOWN_MS);
   setStatusText("Message sent successfully.");
   setStatusType("success");
 
@@ -227,6 +282,15 @@ if (response.ok) {
       setIsSubmitting(false);
     }
   }
+
+  const cooldownMessage =
+    !statusText && cooldownRemaining > 0
+      ? `Please wait ${formatCooldown(cooldownRemaining)} before sending another message.`
+      : "";
+  const visibleStatusText = statusText || cooldownMessage;
+  const visibleStatusType = statusText ? statusType : cooldownMessage ? "error" : "";
+  const isSubmitDisabled = isSubmitting || cooldownRemaining > 0;
+  const submitLabel = isSubmitting ? "Sending..." : "Send message";
 
   return (
     <div className={`email-modal${isOpen ? " show" : ""}`}>
@@ -262,8 +326,8 @@ if (response.ok) {
           <div id="recaptchaWrap" className={`recaptcha-wrap${showRecaptcha ? " show" : ""}`}>
             <div ref={recaptchaRef} className="g-recaptcha"></div>
           </div>
-          <button type="submit" className="email-submit-btn" disabled={isSubmitting}>Send message</button>
-          <p id="emailFormStatus" className={`email-form-status${statusType ? ` ${statusType}` : ""}`}>{statusText}</p>
+          <button type="submit" className="email-submit-btn" disabled={isSubmitDisabled}>{submitLabel}</button>
+          <p id="emailFormStatus" className={`email-form-status${visibleStatusType ? ` ${visibleStatusType}` : ""}`}>{visibleStatusText}</p>
         </form>
       </div>
     </div>
