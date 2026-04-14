@@ -69,6 +69,10 @@ function handleNameChange(e) {
 
   useEffect(() => {
     document.body.classList.toggle("email-modal-open", isOpen);
+
+    return () => {
+      document.body.classList.remove("email-modal-open");
+    };
   }, [isOpen]);
 
   useEffect(() => {
@@ -574,13 +578,38 @@ export default function HomePage({ theme, certificatePreview, onOpenCertificate,
     return () => window.clearInterval(interval);
   }, []);
 
-  function downloadCV() {
-    const link = document.createElement("a");
-    link.href = "/Files/Gabriel-Lazaro-CV.pdf";
-    link.download = "Gabriel-Lazaro-CV.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  async function downloadCV() {
+    const cvUrl = `/Files/Gabriel-Lazaro-CV.pdf?v=${Date.now()}`;
+
+    try {
+      const response = await fetch(cvUrl, { cache: "no-store" });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch CV file.");
+      }
+
+      const blob = await response.blob();
+
+      if (!blob.size) {
+        throw new Error("Downloaded CV file is empty.");
+      }
+
+      const objectUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = "Gabriel-Lazaro-CV.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(objectUrl);
+    } catch (error) {
+      const fallbackLink = document.createElement("a");
+      fallbackLink.href = "/Files/Gabriel-Lazaro-CV.pdf";
+      fallbackLink.download = "Gabriel-Lazaro-CV.pdf";
+      document.body.appendChild(fallbackLink);
+      fallbackLink.click();
+      document.body.removeChild(fallbackLink);
+    }
   }
 
   return (
