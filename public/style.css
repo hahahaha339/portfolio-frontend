@@ -1310,6 +1310,8 @@ body.lightbox-open{
   min-height: 20px;
   margin: 2px 0 0;
   font-size: 13px;
+  opacity: 1;
+  transition: opacity 0.35s ease;
 }
 
 .email-form-status.success{
@@ -1318,6 +1320,10 @@ body.lightbox-open{
 
 .email-form-status.error{
   color: #c62828;
+}
+
+.email-form-status.is-fading{
+  opacity: 0;
 }
 
 html.email-modal-open,

@@ -54,6 +54,8 @@ function EmailModal({ isOpen, onClose }) {
   const [showRecaptcha, setShowRecaptcha] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cooldownRemaining, setCooldownRemaining] = useState(0);
+  const [showCooldownMessage, setShowCooldownMessage] = useState(false);
+  const [isStatusFading, setIsStatusFading] = useState(false);
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
 
@@ -120,6 +122,30 @@ function handleNameChange(e) {
 
     return () => window.clearInterval(interval);
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!statusText.startsWith("Please wait ")) {
+      setIsStatusFading(false);
+      return undefined;
+    }
+
+    setIsStatusFading(false);
+
+    const fadeTimeout = window.setTimeout(() => {
+      setIsStatusFading(true);
+    }, 2200);
+
+    const clearTimeoutId = window.setTimeout(() => {
+      setStatusText("");
+      setStatusType("");
+      setIsStatusFading(false);
+    }, 2800);
+
+    return () => {
+      window.clearTimeout(fadeTimeout);
+      window.clearTimeout(clearTimeoutId);
+    };
+  }, [statusText]);
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -199,6 +225,8 @@ function resetForm(keepStatus = false) {
   formRef.current?.reset();
   setShowRecaptcha(true);
   setIsSubmitting(false);
+  setShowCooldownMessage(false);
+  setIsStatusFading(false);
   setName("");
   setMessage("");
 
@@ -226,6 +254,7 @@ async function handleSubmit(event) {
 
   if (currentCooldown > 0) {
     setCooldownRemaining(currentCooldown);
+    setShowCooldownMessage(true);
     setStatusText(`Please wait ${formatCooldown(currentCooldown)} before sending another message.`);
     setStatusType("error");
     return;
@@ -265,6 +294,7 @@ if (response.ok) {
   const cooldownUntil = Date.now() + EMAIL_COOLDOWN_MS;
   window.localStorage.setItem(EMAIL_COOLDOWN_STORAGE_KEY, String(cooldownUntil));
   setCooldownRemaining(EMAIL_COOLDOWN_MS);
+  setShowCooldownMessage(true);
   setStatusText("Message sent successfully.");
   setStatusType("success");
 
@@ -283,13 +313,9 @@ if (response.ok) {
     }
   }
 
-  const cooldownMessage =
-    !statusText && cooldownRemaining > 0
-      ? `Please wait ${formatCooldown(cooldownRemaining)} before sending another message.`
-      : "";
-  const visibleStatusText = statusText || cooldownMessage;
-  const visibleStatusType = statusText ? statusType : cooldownMessage ? "error" : "";
-  const isSubmitDisabled = isSubmitting || cooldownRemaining > 0;
+  const visibleStatusText = statusText;
+  const visibleStatusType = statusType;
+  const isSubmitDisabled = isSubmitting;
   const submitLabel = isSubmitting ? "Sending..." : "Send message";
 
   return (
@@ -327,7 +353,7 @@ if (response.ok) {
             <div ref={recaptchaRef} className="g-recaptcha"></div>
           </div>
           <button type="submit" className="email-submit-btn" disabled={isSubmitDisabled}>{submitLabel}</button>
-          <p id="emailFormStatus" className={`email-form-status${visibleStatusType ? ` ${visibleStatusType}` : ""}`}>{visibleStatusText}</p>
+          <p id="emailFormStatus" className={`email-form-status${visibleStatusType ? ` ${visibleStatusType}` : ""}${isStatusFading ? " is-fading" : ""}`}>{visibleStatusText}</p>
         </form>
       </div>
     </div>
