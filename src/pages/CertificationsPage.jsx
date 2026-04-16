@@ -66,11 +66,16 @@ function ChatWidget({ theme }) {
     setInput("");
     setIsBotReplying(true);
 
+    const history = messages.slice(-6).map((entry) => ({
+      role: entry.role,
+      text: entry.text
+    }));
+
     try {
       const response = await fetch(`${BACKEND_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message })
+        body: JSON.stringify({ message, history })
       });
       const data = await response.json();
       setMessages((current) => [...current, { role: "bot", text: data.reply || "Sorry, no response generated." }]);
