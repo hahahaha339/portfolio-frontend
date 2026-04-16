@@ -1796,18 +1796,37 @@ body.modal-open{
   height: 7px;
   border-radius: 50%;
   border: none;
+  outline: none;
   background: #d9d9d9;
   cursor: pointer;
   padding: 0;
   transition: background 0.2s ease;
+  box-shadow: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .tagline-dot.active {
   background: #111;
 }
 
-.tagline-dot:hover {
-  background: #888;
+.tagline-dot:focus,
+.tagline-dot:active {
+  outline: none;
+  box-shadow: none;
+}
+
+.tagline-dot:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tagline-dot:hover {
+    background: #888;
+  }
 }
 
 /* KEYFRAMES */

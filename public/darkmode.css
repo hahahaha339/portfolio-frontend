@@ -885,8 +885,10 @@ body.dark-mode .motto-container .tagline-dot.active{
   background: #e4e6eb;
 }
 
-body.dark-mode .motto-container .tagline-dot:hover{
-  background: #6f7275;
+@media (hover: hover) and (pointer: fine) {
+  body.dark-mode .motto-container .tagline-dot:hover{
+    background: #6f7275;
+  }
 }
 
 body.dark-mode .about-container p{
