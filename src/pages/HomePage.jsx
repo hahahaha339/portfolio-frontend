@@ -279,6 +279,12 @@ async function handleSubmit(event) {
     }
 
     const formData = new FormData(formRef.current);
+    const payload = {
+      name: String(formData.get("name") || "").trim(),
+      email: String(formData.get("email") || "").trim(),
+      subject: String(formData.get("subject") || "").trim(),
+      message: String(formData.get("message") || "").trim()
+    };
 
     setStatusText("Sending...");
     setStatusType("loading");
@@ -287,25 +293,29 @@ async function handleSubmit(event) {
     await new Promise(r => setTimeout(r, 800));
 
     try {
-      const response = await fetch("https://formspree.io/f/mvgrnjpd", {
+      const response = await fetch(`${BACKEND_URL}/contact`, {
         method: "POST",
-        body: formData,
-        headers: { Accept: "application/json" }
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify(payload)
       });
+      const data = await response.json().catch(() => ({}));
 
 if (response.ok) {
   const cooldownUntil = Date.now() + EMAIL_COOLDOWN_MS;
   window.localStorage.setItem(EMAIL_COOLDOWN_STORAGE_KEY, String(cooldownUntil));
   setCooldownRemaining(EMAIL_COOLDOWN_MS);
   setShowCooldownMessage(true);
-  setStatusText("Message sent successfully.");
+  setStatusText(data.message || "Message sent successfully.");
   setStatusType("success");
 
   window.setTimeout(() => {
     handleClose(); // 🔥 important
   }, 1400);
 } else {
-        setStatusText("Failed to send message. Please try again.");
+        setStatusText(data.message || "Failed to send message. Please try again.");
         setStatusType("error");
       }
     } catch (error) {
