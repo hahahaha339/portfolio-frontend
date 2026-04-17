@@ -224,6 +224,12 @@ app.post("/contact", async (req, res) => {
     const currentSubmissions = pruneOldContactSubmissions(contactSubmissionLog.get(ipAddress) || [], now);
     const captchaVerification = await verifyRecaptchaToken(trimmedCaptchaResponse, ipAddress);
 
+    if (currentSubmissions.length >= CONTACT_SUBMISSION_LIMIT) {
+      return res.status(429).json({
+        message: "You've reached the daily message limit for this IP address. Please try again after 24 hours."
+      });
+    }
+
     if (!captchaVerification.success) {
       console.error("[contact] Captcha verification failed", captchaVerification.details || {});
       return res.status(400).json({
@@ -279,10 +285,13 @@ app.post("/contact", async (req, res) => {
       });
     }
 
+    currentSubmissions.push(now);
+    contactSubmissionLog.set(ipAddress, currentSubmissions);
+
     console.log("[contact] message sent successfully", {
       ipAddress,
       submissionsToday: currentSubmissions.length,
-      ipLimitEnabled: false,
+      ipLimitEnabled: true,
       captchaVerified: !captchaVerification.skipped
     });
 
