@@ -287,8 +287,8 @@ async function handleSubmit(event) {
       captchaResponse
     };
 
-    setStatusText("Sending...");
-    setStatusType("loading");
+    setStatusText("");
+    setStatusType("");
     setIsSubmitting(true);
 
     await new Promise(r => setTimeout(r, 800));
@@ -328,8 +328,8 @@ async function handleSubmit(event) {
     }
   }
 
-  const visibleStatusText = statusText;
-  const visibleStatusType = statusType;
+  const visibleStatusText = isSubmitting ? "" : statusText;
+  const visibleStatusType = isSubmitting ? "" : statusType;
   const isSubmitDisabled = isSubmitting;
   const submitLabel = isSubmitting ? "Sending..." : "Send message";
 
