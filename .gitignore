@@ -1,4 +1,6 @@
 node_modules/
 dist/
-backend/
+backend/node_modules/
+backend/.env
+backend-sync-temp/
 repo-sync/
