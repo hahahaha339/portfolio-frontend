@@ -24,6 +24,7 @@ const CONTACT_SUBMISSION_LIMIT = 5;
 const CONTACT_WINDOW_MS = 24 * 60 * 60 * 1000;
 const contactSubmissionLog = new Map();
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mvgrnjpd";
+const RECAPTCHA_SECRET_KEY = String(process.env.RECAPTCHA_SECRET_KEY || "").trim();
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
@@ -163,6 +164,38 @@ function pruneOldContactSubmissions(submissions, now) {
   return submissions.filter((timestamp) => now - timestamp < CONTACT_WINDOW_MS);
 }
 
+async function verifyRecaptchaToken(token, ipAddress) {
+  if (!RECAPTCHA_SECRET_KEY) {
+    console.warn("[contact] RECAPTCHA_SECRET_KEY is not configured. Skipping server-side captcha verification.");
+    return { success: true, skipped: true };
+  }
+
+  const verificationBody = new URLSearchParams({
+    secret: RECAPTCHA_SECRET_KEY,
+    response: token
+  });
+
+  if (ipAddress && ipAddress !== "unknown") {
+    verificationBody.append("remoteip", ipAddress);
+  }
+
+  const verificationResponse = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: verificationBody.toString()
+  });
+
+  const verificationData = await verificationResponse.json().catch(() => ({}));
+
+  return {
+    success: Boolean(verificationResponse.ok && verificationData.success),
+    skipped: false,
+    details: verificationData
+  };
+}
+
 app.post("/contact", async (req, res) => {
   try {
     const { name, email, subject, message, captchaResponse } = req.body || {};
@@ -189,6 +222,15 @@ app.post("/contact", async (req, res) => {
 
     const now = Date.now();
     const currentSubmissions = pruneOldContactSubmissions(contactSubmissionLog.get(ipAddress) || [], now);
+    const captchaVerification = await verifyRecaptchaToken(trimmedCaptchaResponse, ipAddress);
+
+    if (!captchaVerification.success) {
+      console.error("[contact] Captcha verification failed", captchaVerification.details || {});
+      return res.status(400).json({
+        message: "Captcha verification failed. Please try again.",
+        debug: "The captcha token was rejected by Google."
+      });
+    }
 
     const formBody = new FormData();
     formBody.append("name", trimmedName);
@@ -196,7 +238,6 @@ app.post("/contact", async (req, res) => {
     formBody.append("_replyto", trimmedEmail);
     formBody.append("subject", trimmedSubject);
     formBody.append("message", trimmedMessage);
-    formBody.append("g-recaptcha-response", trimmedCaptchaResponse);
 
     const response = await fetch(FORMSPREE_ENDPOINT, {
       method: "POST",
@@ -224,7 +265,8 @@ app.post("/contact", async (req, res) => {
     console.log("[contact] message sent successfully", {
       ipAddress,
       submissionsToday: currentSubmissions.length,
-      ipLimitEnabled: false
+      ipLimitEnabled: false,
+      captchaVerified: !captchaVerification.skipped
     });
 
     return res.status(200).json({ message: "Message sent successfully." });
