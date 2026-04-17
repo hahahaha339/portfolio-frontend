@@ -271,19 +271,20 @@ async function handleSubmit(event) {
       ? window.grecaptcha.getResponse(recaptchaWidgetIdRef.current)
       : "";
 
-    if (!captchaResponse) {
-      setShowRecaptcha(true);
-      setStatusText("Please complete the captcha first.");
-      setStatusType("error");
-      return;
-    }
+  if (!captchaResponse) {
+    setShowRecaptcha(true);
+    setStatusText("Please complete the captcha first.");
+    setStatusType("error");
+    return;
+  }
 
     const formData = new FormData(formRef.current);
     const payload = {
       name: String(formData.get("name") || "").trim(),
       email: String(formData.get("email") || "").trim(),
       subject: String(formData.get("subject") || "").trim(),
-      message: String(formData.get("message") || "").trim()
+      message: String(formData.get("message") || "").trim(),
+      captchaResponse
     };
 
     setStatusText("Sending...");
@@ -303,18 +304,18 @@ async function handleSubmit(event) {
       });
       const data = await response.json().catch(() => ({}));
 
-if (response.ok) {
-  const cooldownUntil = Date.now() + EMAIL_COOLDOWN_MS;
-  window.localStorage.setItem(EMAIL_COOLDOWN_STORAGE_KEY, String(cooldownUntil));
-  setCooldownRemaining(EMAIL_COOLDOWN_MS);
-  setShowCooldownMessage(true);
-  setStatusText(data.message || "Message sent successfully.");
-  setStatusType("success");
+      if (response.ok) {
+        const cooldownUntil = Date.now() + EMAIL_COOLDOWN_MS;
+        window.localStorage.setItem(EMAIL_COOLDOWN_STORAGE_KEY, String(cooldownUntil));
+        setCooldownRemaining(EMAIL_COOLDOWN_MS);
+        setShowCooldownMessage(true);
+        setStatusText(data.message || "Message sent successfully.");
+        setStatusType("success");
 
-  window.setTimeout(() => {
-    handleClose(); // 🔥 important
-  }, 1400);
-} else {
+        window.setTimeout(() => {
+          handleClose();
+        }, 1400);
+      } else {
         setStatusText(data.message || "Failed to send message. Please try again.");
         setStatusType("error");
       }
@@ -945,3 +946,4 @@ export default function HomePage({ theme, certificatePreview, onOpenCertificate,
     </>
   );
 }
+
