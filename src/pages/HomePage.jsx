@@ -374,7 +374,6 @@ async function handleSubmit(event) {
     </div>
   );
 }
-
 function ChatWidget({ theme }) {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -947,4 +946,3 @@ export default function HomePage({ theme, certificatePreview, onOpenCertificate,
     </>
   );
 }
-
